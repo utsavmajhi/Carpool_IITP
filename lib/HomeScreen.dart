@@ -1,3 +1,4 @@
+import 'package:carpool/addtravelwaypoint.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/PasswordResetScreen.dart';
 import 'package:carpool/RegistrationScreen.dart';
@@ -85,32 +86,42 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisSpacing: 22,
                           primary: false,
                           children: <Widget>[
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              elevation: 4,
-                                child: Column(
+                            InkWell(
+                              onTap: ()
+                              {
+                                //goto next screen of addtravel
+                                Navigator.pushNamed(context, AddTravelWaypoint.id);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  elevation: 4,
+                                    child: Column(
 
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    SvgPicture.asset('images/travel2.svg',height: 110,),
-                                    SizedBox(
-                                      height: 10 ,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        SvgPicture.asset('images/travel2.svg',height: 110,),
+                                        SizedBox(
+                                          height: 10 ,
+                                        ),
+                                        Text(
+                                          'Add Journey',
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat Regular',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color.fromRGBO(63, 63, 63, 1)
+                                          ),
+                                        ),
+
+
+                                      ],
                                     ),
-                                    Text(
-                                      'Add Journey',
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat Regular',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color.fromRGBO(63, 63, 63, 1)
-                                      ),
-                                    ),
-
-
-                                  ],
                                 ),
+                              ),
                             ),
                             Card(
                               shape: RoundedRectangleBorder(

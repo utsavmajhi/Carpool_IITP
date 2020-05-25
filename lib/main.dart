@@ -5,6 +5,7 @@ import 'package:carpool/WelcomePage.dart';
 import 'package:carpool/RegistrationScreen.dart';
 import 'package:carpool/HomeScreen.dart';
 import 'package:carpool/addtravelwaypoint.dart';
+import 'package:carpool/addtravelTo.dart';
 
 void main() {
   runApp(Carpool());
@@ -14,7 +15,7 @@ class Carpool extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      initialRoute:HomeScreen.id ,
+      initialRoute:HomeScreen.id,
       routes: {
         WelcomePage.id:(context) => WelcomePage(),
         LoginScreen.id:(context) => LoginScreen(),
@@ -22,6 +23,7 @@ class Carpool extends StatelessWidget {
         PasswordResetScreen.id:(context) => PasswordResetScreen(),
         HomeScreen.id:(context) => HomeScreen(),
         AddTravelWaypoint.id:(context) => AddTravelWaypoint(),
+        AddTravelTo.id:(context) => AddTravelTo(),
 
       },
     );
