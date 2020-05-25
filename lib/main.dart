@@ -4,6 +4,7 @@ import 'package:carpool/PasswordResetScreen.dart';
 import 'package:carpool/WelcomePage.dart';
 import 'package:carpool/RegistrationScreen.dart';
 import 'package:carpool/HomeScreen.dart';
+import 'package:carpool/addtravelwaypoint.dart';
 
 void main() {
   runApp(Carpool());
@@ -20,6 +21,8 @@ class Carpool extends StatelessWidget {
         RegistrationScreen.id:(context) => RegistrationScreen(),
         PasswordResetScreen.id:(context) => PasswordResetScreen(),
         HomeScreen.id:(context) => HomeScreen(),
+        AddTravelWaypoint.id:(context) => AddTravelWaypoint(),
+
       },
     );
   }
