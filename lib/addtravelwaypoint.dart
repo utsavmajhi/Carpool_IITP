@@ -7,10 +7,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:carpool/constants.dart';
 import 'package:carpool/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'PassArguments/traveltype.dart';
 
 
 class AddTravelWaypoint extends StatefulWidget {
   static String id='addtravelwaypoint';
+
   @override
   _AddTravelWaypointState createState() => _AddTravelWaypointState();
 }
@@ -18,6 +20,7 @@ class AddTravelWaypoint extends StatefulWidget {
 class _AddTravelWaypointState extends State<AddTravelWaypoint> {
   @override
   Widget build(BuildContext context) {
+
     var size =MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -97,7 +100,7 @@ class _AddTravelWaypointState extends State<AddTravelWaypoint> {
                     child: InkWell(
                       onTap: (){
                         //clicked on 1st button(to)
-                        Navigator.pushNamed(context, AddTravelTo.id);
+                        Navigator.pushNamed(context, AddTravelTo.id,arguments:TravelType(selectTravelType: "TO") );
                       },
                       child: Card(
                         elevation: 5,
@@ -168,7 +171,7 @@ class _AddTravelWaypointState extends State<AddTravelWaypoint> {
                     child: InkWell(
                       onTap: (){
                         //clicked on 2nd button (from)
-                        Navigator.pushNamed(context, AddTravelTo.id);
+                        Navigator.pushNamed(context, AddTravelTo.id,arguments:TravelType(selectTravelType: "FROM") );
                       },
                       child: Card(
                         elevation: 5,

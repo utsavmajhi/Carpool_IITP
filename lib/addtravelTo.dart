@@ -6,16 +6,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:carpool/constants.dart';
 import 'package:carpool/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'PassArguments/traveltype.dart';
 
 class AddTravelTo extends StatefulWidget {
   static String id='AddTravel_TO';
+
   @override
   _AddTravelToState createState() => _AddTravelToState();
 }
 
 class _AddTravelToState extends State<AddTravelTo> {
+
+
   @override
   Widget build(BuildContext context) {
+    TravelType travelType=ModalRoute.of(context).settings.arguments;
     var size =MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +66,7 @@ class _AddTravelToState extends State<AddTravelTo> {
                           ),
                           Center(
                             child: Text(
-                              'Destination',
+                              travelType.selectTravelType=="TO"?"Destination":"Starting Point",
                               style: GoogleFonts.raleway(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -83,7 +88,7 @@ class _AddTravelToState extends State<AddTravelTo> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Select the Destination',
+                travelType.selectTravelType=="TO"?'Select the Destination':'Select the Starting Point',
                 style: GoogleFonts.lora(
                     fontSize: 18,
                     fontWeight: FontWeight.w700
@@ -92,25 +97,7 @@ class _AddTravelToState extends State<AddTravelTo> {
             ),
           ),
           Expanded(
-            child: ListView(
-              padding: EdgeInsets.all(0),
-              children: <Widget>[
-                destinationlistitems(destinationname: 'Patna Junction',Distance: "34",onTap: ()
-                  {},iconimage: "subway.png",),
-                destinationlistitems(destinationname: 'Danapur Junction',Distance: "26",onTap: ()
-                {},iconimage: "subway.png"),
-                destinationlistitems(destinationname: 'Patliputra Junction',Distance: "29",onTap: ()
-                {},iconimage: "subway.png"),
-                destinationlistitems(destinationname: 'Ara Junction',Distance: "86",onTap: ()
-                {},iconimage: "subway.png"),
-                destinationlistitems(destinationname: 'Rajendra Nagar Terminal',Distance: "39",onTap: ()
-                {},iconimage: "subway.png"),
-                destinationlistitems(destinationname: 'Patna Airport',Distance: "32",onTap: ()
-                {},iconimage: "airport.png"),
-
-
-              ],
-            ),
+            child: showListWidget(travelType.selectTravelType)
           )
         ],
       ),
@@ -194,3 +181,53 @@ class MyClipper extends CustomClipper<Path> {
 }
 
 
+Widget showListWidget(@required String traveltype)
+{
+  if(traveltype=="TO")
+    {
+      return
+        ListView(
+
+          padding: EdgeInsets.all(0),
+          children: <Widget>[
+            destinationlistitems(destinationname: 'Patna Airport',Distance: "32",onTap: ()
+            {print(traveltype +'Patna Airport');},iconimage: "plane.png"),
+            destinationlistitems(destinationname: 'Ara Junction',Distance: "86",onTap: ()
+            {print(traveltype +'Ara Junction');},iconimage: "trainicon.png"),
+            destinationlistitems(destinationname: 'Danapur Junction',Distance: "26",onTap: ()
+            {print(traveltype +'Danapur Junction');},iconimage: "trainicon.png"),
+            destinationlistitems(destinationname: 'Patna Junction',Distance: "34",onTap: ()
+            {print(traveltype+'Patna Junction');},iconimage: "trainicon.png",),
+            destinationlistitems(destinationname: 'Patliputra Junction',Distance: "29",onTap: ()
+            {print(traveltype+'Patliputra Junction');},iconimage: "trainicon.png"),
+            destinationlistitems(destinationname: 'Rajendra Nagar Terminal',Distance: "39",onTap: ()
+            {print(traveltype +'Rajendra Nagar Terminal');},iconimage: "trainicon.png"),
+
+
+
+          ],
+        );
+    }
+  else
+    {
+       return ListView(
+        padding: EdgeInsets.all(0),
+        children: <Widget>[
+          destinationlistitems(destinationname: 'Patna Airport',Distance: "32",onTap: ()
+          {print(traveltype +'Patna Airport');},iconimage: "plane.png"),
+          destinationlistitems(destinationname: 'Ara Junction',Distance: "86",onTap: ()
+          {print(traveltype +'Ara Junction');},iconimage: "trainicon.png"),
+          destinationlistitems(destinationname: 'Danapur Junction',Distance: "26",onTap: ()
+          {print(traveltype +'Danapur Junction');},iconimage: "trainicon.png"),
+          destinationlistitems(destinationname: 'Patna Junction',Distance: "34",onTap: ()
+          {print(traveltype+'Patna Junction');},iconimage: "trainicon.png",),
+          destinationlistitems(destinationname: 'Patliputra Junction',Distance: "29",onTap: ()
+          {print(traveltype+'Patliputra Junction');},iconimage: "trainicon.png"),
+          destinationlistitems(destinationname: 'Rajendra Nagar Terminal',Distance: "39",onTap: ()
+          {print(traveltype +'Rajendra Nagar Terminal');},iconimage: "trainicon.png"),
+
+
+        ],
+      );
+    }
+}
