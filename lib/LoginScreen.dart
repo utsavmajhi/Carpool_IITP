@@ -1,3 +1,4 @@
+import 'package:carpool/HomeScreen.dart';
 import 'package:carpool/PasswordResetScreen.dart';
 import 'package:carpool/RegistrationScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -205,40 +206,54 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     RoundedButton(title: 'Login',colour: Color(0xFF3F6AFE),
                       onPressed: () async{
                           //backends starts
-                        setState(() {
-                          showSpinner=true;
-                        });
 
-                        try{
-                          var user=await _auth.signInWithEmailAndPassword(email: email.toLowerCase().trim(), password: password);
-                          var _authenticatedUser = await _auth.currentUser();
-                          if(_authenticatedUser.isEmailVerified)
+                        String check=checkparameters(email.toLowerCase().trim(), password);
+                        if(check=="Checks passed")
                           {
-                            print("Email is :"+_authenticatedUser.isEmailVerified.toString());
-                            /* Navigator.pushNamed(context,HomeScreen.id);*/
-                            _showSnackBar('Email is verified',Colors.lightGreenAccent);
+                            setState(() {
+                              showSpinner=true;
+                            });
+                            try{
+                              var user=await _auth.signInWithEmailAndPassword(email: email.toLowerCase().trim(), password: password);
+                              var _authenticatedUser = await _auth.currentUser();
+                              if(await _authenticatedUser.isEmailVerified)
+                              {
+                                print("Email is :"+_authenticatedUser.isEmailVerified.toString());
+                                Navigator.pushNamed(context,HomeScreen.id);
+                               await _showSnackBar('Email is verified',Colors.lightGreen);
+                                setState(() {
+                                  showSpinner=false;
+                                });
+                              }
+                              else
+                              {
+                                print("Email is :"+_authenticatedUser.isEmailVerified.toString());
+                                _showSnackBar('Email is not verified ! Please verify your email',Colors.red[600]);
+                                setState(() {
+                                  showSpinner=false;
+                                });
+                              }
+
+                            }
+                            catch(e)
+                            {
+                              _showSnackBar(e.message,Colors.red[600]);
+                              print(e);
+                              setState(() {
+                                showSpinner=false;
+                              });
+
+                            }
+                          }
+                        else
+                          {
                             setState(() {
                               showSpinner=false;
                             });
-                          }
-                          else
-                          {
-                            print("Email is :"+_authenticatedUser.isEmailVerified.toString());
-                            _showSnackBar('Email is not verified ! Please verify your email',Colors.red[600]);
-                            setState(() {
-                              showSpinner=false;
-                            });
+                            _showSnackBar(check,Colors.red[700]);
                           }
 
-                        }
-                        catch(e)
-                        {
-                          print(e);
-                          setState(() {
-                            showSpinner=false;
-                          });
 
-                        }
 
 
 
@@ -287,6 +302,38 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     );
   }
 }
+
+//credentials checks
+String checkparameters(@required String institutemail,@required String password) {
+  if(institutemail.isEmpty||password.isEmpty||institutemail==null||password==null)
+  {
+    return "All Fields are Mandatory";
+  }
+  else
+  {
+    if(password.length<6)
+    {
+      return "Password Length is less than 6";
+    }
+    else
+    {
+      if(!(institutemail.contains("@iitp")))
+      {
+        return "Please ! Use Webmail Id for Institute Email";
+      }
+      else
+      {
+        return "Checks passed";
+      }
+    }
+  }
+
+}
+
+
+
+
+
 
 class MyClipper extends CustomClipper<Path> {
   @override
