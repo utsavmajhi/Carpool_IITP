@@ -16,7 +16,7 @@ class Carpool extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      initialRoute:ConfirmAddTravelScreen.id,
+      initialRoute:LoginScreen.id,
       routes: {
         WelcomePage.id:(context) => WelcomePage(),
         LoginScreen.id:(context) => LoginScreen(),

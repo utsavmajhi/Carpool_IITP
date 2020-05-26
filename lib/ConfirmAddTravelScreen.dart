@@ -39,202 +39,268 @@ class _ConfirmAddTravelScreenState extends State<ConfirmAddTravelScreen> {
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          ClipPath(
-            clipper: MyClipper(),
-            child: Container(
-              height: size.height*.36,
-              decoration: BoxDecoration(
-                /*image: DecorationImage(
-                        image: AssetImage('images/back1.jpg'),
-                        fit: BoxFit.cover,
-                      ),*/
-                color: Color(0xFF355AFE),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
+      extendBodyBehindAppBar: true,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            ClipPath(
+              clipper: MyClipper(),
+              child: Container(
+                height: size.height*.38,
+                decoration: BoxDecoration(
+                  /*image: DecorationImage(
+                          image: AssetImage('images/back1.jpg'),
+                          fit: BoxFit.cover,
+                        ),*/
+                  color: Color(0xFF355AFE),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                          radius: (38),
+                          backgroundColor: Colors.white,
+                          child: ClipRRect(
+                            borderRadius:BorderRadius.circular(20),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: SvgPicture.asset('images/travel2.svg'),
+                              ),
+                            ),
+                          )
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        'Confirm Travel',
+                        style: GoogleFonts.raleway(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 45
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                        radius: (38),
-                        backgroundColor: Colors.white,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        CircleAvatar(
+                            radius: (38),
+                            backgroundColor: Colors.transparent,
+                            child: ClipRRect(
+                              borderRadius:BorderRadius.circular(20),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.asset("images/school.png"),
+                              ),
+                            )
+                        ),
+                        Text(
+                          'IIT Patna',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                          ),
+                        )
+                      ],
+                    ),
+                    CircleAvatar(
+                        radius: (29),
+                        backgroundColor: Colors.transparent,
                         child: ClipRRect(
                           borderRadius:BorderRadius.circular(20),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: SvgPicture.asset('images/travel2.svg'),
-                            ),
+                            child: Image.asset("images/right.png"),
                           ),
                         )
                     ),
-                  ),
-                  Center(
-                    child: Text(
-                      'Confirm Travel',
-                      style: GoogleFonts.raleway(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 45
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CircleAvatar(
+                            radius: (38),
+                            backgroundColor: Colors.transparent,
+                            child: ClipRRect(
+                              borderRadius:BorderRadius.circular(20),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.asset("images/trainicon.png"),
+                              ),
+                            )
+                        ),
+                        Text(
+                          'Rajendranagar',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(
+                          'Terminal',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
 
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Column(
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:18.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      CircleAvatar(
-                          radius: (38),
-                          backgroundColor: Colors.transparent,
-                          child: ClipRRect(
-                            borderRadius:BorderRadius.circular(20),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset("images/school.png"),
-                            ),
-                          )
+                      Flexible(
+                        child: Text(
+                          'Select Train Departure : ',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Montserrat Medium'
+                          ),
+                        ),
                       ),
-                      Text(
-                        'IIT Patna',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold
+                      DropdownButton<String>(
+                        value: dropdownValue,
+                        icon: Icon(Icons.access_time),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(color: Colors.deepPurple),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            dropdownValue = newValue;
+                          });
+                        },
+                        items: <String>['00:00', '00:30', '01:00', '01:30','02:00', '02:30','03:00', '03:30','04:00', '04:30','05:00', '05:30','06:00', '06:30','07:00', '07:30','08:00', '08:30','09:00', '09:30','10:00', '10:30','11:00', '11:30','12:00', '13:30','14:00', '14:30','15:00', '15:30','16:00', '16:30','17:00', '17:30','18:00', '18:30','19:00', '19:30','20:00', '20:30','21:00', '21:30','22:00', '22:30','23:00', '23:30']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value,
+                            style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold
+                            ),),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:18.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+
+                      Flexible(
+                        child: Text(
+                          'Select Journey Date : ',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Montserrat Medium'
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        child: FlatButton(
+                          onPressed: (){
+                                _selectDate(context);
+                          },
+                          child: Text (
+                            _dateTime==null? "Please Select" : changetimeformat(_dateTime),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
                         ),
                       )
                     ],
                   ),
-                  CircleAvatar(
-                      radius: (29),
-                      backgroundColor: Colors.transparent,
-                      child: ClipRRect(
-                        borderRadius:BorderRadius.circular(20),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:18.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          'Phone Number : ',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Montserrat Medium'
+                          ),
+                        ),
+                      ),
+                      Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset("images/right.png"),
-                        ),
-                      )
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                          radius: (38),
-                          backgroundColor: Colors.transparent,
-                          child: ClipRRect(
-                            borderRadius:BorderRadius.circular(20),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset("images/trainicon.png"),
+                          padding: const EdgeInsets.only(left:35),
+                          child: TextFormField(
+                            style: TextStyle(
+                              fontSize: 20
                             ),
-                          )
-                      ),
-                      Text(
-                        'Rajendranagar',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      Text(
-                        'Terminal',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
+                            textAlign: TextAlign.end,
+                            onChanged: (value)
+                            {
+                              //get the pass
+                            },
+                            decoration:InputDecoration(
+                              contentPadding: EdgeInsets.only(left: 0, bottom: 1, top: 11, right: 15),
 
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 6,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text(
-                    'Select Train Departure : ',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Montserrat Medium'
-                    ),
-                  ),
-                  DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: Icon(Icons.access_time),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        dropdownValue = newValue;
-                      });
-                    },
-                    items: <String>['00:00', '00:30', '01:00', '01:30','02:00', '02:30','03:00', '03:30','04:00', '04:30','05:00', '05:30','06:00', '06:30','07:00', '07:30','08:00', '08:30','09:00', '09:30','10:00', '10:30','11:00', '11:30','12:00', '13:30','14:00', '14:30','15:00', '15:30','16:00', '16:30','17:00', '17:30','18:00', '18:30','19:00', '19:30','20:00', '20:30','21:00', '21:30','22:00', '22:30','23:00', '23:30']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value,
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold
-                        ),),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text(
-                    'Select Journey Date : ',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Montserrat Medium'
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: (){
-                          _selectDate(context);
-                    },
-                    child: Text (
-                      _dateTime==null? "Please Select" : changetimeformat(_dateTime),
-                      style: TextStyle(
-                        fontSize: 18
-                      ),
-                    ),
-                  )
-                ],
-              )
-            ],
-          )
-        ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                RoundedButton(title: 'Submit',colour: Color(0xFF3F6AFE),onPressed: (){
+
+                },),
+
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -262,7 +328,7 @@ class MyClipper extends CustomClipper<Path> {
 //for formatting date
 changetimeformat(@required DateTime datetimepicked)
 {
-  String formattedDate = DateFormat('yyyy-MM-dd').format(datetimepicked);
+  String formattedDate = DateFormat('dd-MM-yyyy').format(datetimepicked);
   return formattedDate;
   
 }

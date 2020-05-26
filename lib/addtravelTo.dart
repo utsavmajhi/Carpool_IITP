@@ -1,3 +1,4 @@
+import 'package:carpool/ConfirmAddTravelScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/PasswordResetScreen.dart';
 import 'package:carpool/RegistrationScreen.dart';
@@ -97,7 +98,7 @@ class _AddTravelToState extends State<AddTravelTo> {
             ),
           ),
           Expanded(
-            child: showListWidget(travelType.selectTravelType)
+            child: showListWidget(travelType.selectTravelType,context)
           )
         ],
       ),
@@ -181,7 +182,7 @@ class MyClipper extends CustomClipper<Path> {
 }
 
 
-Widget showListWidget(@required String traveltype)
+Widget showListWidget(@required String traveltype, BuildContext context)
 {
   if(traveltype=="TO")
     {
@@ -191,7 +192,8 @@ Widget showListWidget(@required String traveltype)
           padding: EdgeInsets.all(0),
           children: <Widget>[
             destinationlistitems(destinationname: 'Patna Airport',Distance: "32",onTap: ()
-            {print(traveltype +'Patna Airport');},iconimage: "plane.png"),
+            {print(traveltype +'Patna Airport');
+            Navigator.pushNamed(context, ConfirmAddTravelScreen.id);},iconimage: "plane.png"),
             destinationlistitems(destinationname: 'Ara Junction',Distance: "86",onTap: ()
             {print(traveltype +'Ara Junction');},iconimage: "trainicon.png"),
             destinationlistitems(destinationname: 'Danapur Junction',Distance: "26",onTap: ()
