@@ -284,13 +284,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> with TickerProv
                     RoundedButton(title: 'Sign up',colour: Color(0xFF3F6AFE),
                       onPressed: () async{
                       //backend starts for registration
-                        setState(() {
-                          showSpinner=true;
-                        });
+
                         //checks to be performed
                          String checks=checkparameters(_fullname,_institutemail.toLowerCase().trim(),_altemail.toLowerCase().trim(),_phonenum,_password1,_passwordconfirm);
                          if(checks=="Checks passed")
                            {
+                             setState(() {
+                               showSpinner=true;
+                             });
                              try{
                                final  newUser=await _auth.createUserWithEmailAndPassword(email: _institutemail.toLowerCase().trim(), password: _password1);
                                var _authenticatedUser = await _auth.currentUser();
