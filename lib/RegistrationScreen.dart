@@ -11,7 +11,7 @@ class RegistrationScreen extends StatefulWidget {
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> with TickerProviderStateMixin{
   bool _obscureText = true;
   bool _obscureText2 = true;
   bool passwordVisible;

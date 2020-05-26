@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "122011300961",
+    "firebase_url": "https://cabpoolitp.firebaseio.com",
+    "project_id": "cabpoolitp",
+    "storage_bucket": "cabpoolitp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122011300961:android:38ad91c73ed38c220da620",
+        "android_client_info": {
+          "package_name": "com.creatordev.carpool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122011300961-rbf2bpn3gvjsujvpk7212e1hfedqi39s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDslcm9jw3eKC26Oo9gVu647Q3K-i2O2fs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122011300961-rbf2bpn3gvjsujvpk7212e1hfedqi39s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
