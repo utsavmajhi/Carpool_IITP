@@ -10,6 +10,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:carpool/PassArguments/AddtravelDetails.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 final _firestore=Firestore.instance;
 FirebaseUser loggedInUser;
@@ -45,12 +47,28 @@ void getCurrentUser () async{
 
 }
   final _auth=FirebaseAuth.instance;
-
-  final List<String> subjects = ["Computer Science", "Biology", "Math","asdsa","ads","sad","asdsad","sadsadsa","dasdasdsa","asdasdsad"];
+  GlobalKey<ScaffoldState> _scaffoldKey= new GlobalKey<ScaffoldState>();
+  bool showSpinner=false;
+  String _phonenumber;
   String _journeytime = '00:00';
-
   String _nofpersonsaccom='0';
-DateTime _dateTime=DateTime.now();
+  DateTime _dateTime=DateTime.now();
+
+
+  //snackbar initialises
+  _showSnackBar(@required String message, @required Color colors) {
+    if(_scaffoldKey!=null)
+    {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          backgroundColor: colors,
+          content: new Text(message),
+          duration: new Duration(seconds: 4),
+        ),
+      );
+    }
+
+  }
 
 //date picker from calendar
   Future<Null> _selectDate(BuildContext context) async {
@@ -67,329 +85,346 @@ DateTime _dateTime=DateTime.now();
   //String time=DateFormat('yMd').format(_dateTime);
   @override
   Widget build(BuildContext context) {
+    AddtravelDetails addtravelDetails=ModalRoute.of(context).settings.arguments;
     var size =MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
       extendBodyBehindAppBar: true,
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            ClipPath(
-              clipper: MyClipper(),
-              child: Container(
-                height: size.height*.38,
-                decoration: BoxDecoration(
-                  /*image: DecorationImage(
-                          image: AssetImage('images/back1.jpg'),
-                          fit: BoxFit.cover,
-                        ),*/
-                  color: Color(0xFF355AFE),
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              ClipPath(
+                clipper: MyClipper(),
+                child: Container(
+                  height: size.height*.38,
+                  decoration: BoxDecoration(
+                    /*image: DecorationImage(
+                            image: AssetImage('images/back1.jpg'),
+                            fit: BoxFit.cover,
+                          ),*/
+                    color: Color(0xFF355AFE),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                            radius: (38),
+                            backgroundColor: Colors.white,
+                            child: ClipRRect(
+                              borderRadius:BorderRadius.circular(20),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: SvgPicture.asset('images/travel2.svg'),
+                                ),
+                              ),
+                            )
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          'Confirm Travel',
+                          style: GoogleFonts.raleway(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 45
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CircleAvatar(
-                          radius: (38),
-                          backgroundColor: Colors.white,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          CircleAvatar(
+                              radius: (38),
+                              backgroundColor: Colors.transparent,
+                              child: ClipRRect(
+                                borderRadius:BorderRadius.circular(20),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.asset("images/iitplogo.png"),
+                                ),
+                              )
+                          ),
+                          Text(
+                            'IIT Patna',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold
+                            ),
+                          )
+                        ],
+                      ),
+                      CircleAvatar(
+                          radius: (29),
+                          backgroundColor: Colors.transparent,
                           child: ClipRRect(
                             borderRadius:BorderRadius.circular(20),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: SvgPicture.asset('images/travel2.svg'),
-                              ),
+                              child: addtravelDetails.selectTravelType=="TO" ? Image.asset("images/right.png"): Image.asset("images/leftarrow.png") ,
                             ),
                           )
                       ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Confirm Travel',
-                        style: GoogleFonts.raleway(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 45
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          CircleAvatar(
+                              radius: (38),
+                              backgroundColor: Colors.transparent,
+                              child: ClipRRect(
+                                borderRadius:BorderRadius.circular(20),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: addtravelDetails.selectModeoftravel=="Railways" ? Image.asset("images/trainicon.png"):Image.asset("images/plane.png"),
+                                ),
+                              )
+                          ),
+                          addtravelDetails.selectTravelType=="TO"?Text(addtravelDetails.selectTo,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),):Text(addtravelDetails.selectFrom,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
 
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        CircleAvatar(
-                            radius: (38),
-                            backgroundColor: Colors.transparent,
-                            child: ClipRRect(
-                              borderRadius:BorderRadius.circular(20),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset("images/iitplogo.png"),
-                              ),
-                            )
-                        ),
-                        Text(
-                          'IIT Patna',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold
-                          ),
-                        )
-                      ],
-                    ),
-                    CircleAvatar(
-                        radius: (29),
-                        backgroundColor: Colors.transparent,
-                        child: ClipRRect(
-                          borderRadius:BorderRadius.circular(20),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset("images/right.png"),
-                          ),
-                        )
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CircleAvatar(
-                            radius: (38),
-                            backgroundColor: Colors.transparent,
-                            child: ClipRRect(
-                              borderRadius:BorderRadius.circular(20),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset("images/trainicon.png"),
-                              ),
-                            )
-                        ),
-                        Text(
-                          'Rajendranagar',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        Text(
-                          'Terminal',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
 
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 6,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:18.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
-                        child: Text(
-                          'Select Train Departure : ',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: 'Montserrat Medium'
-                          ),
-                        ),
-                      ),
-                      DropdownButton<String>(
-                        value: _journeytime,
-                        icon: Icon(Icons.access_time),
-                        iconSize: 24,
-                        elevation: 16,
-                        style: TextStyle(color: Colors.deepPurple),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.deepPurpleAccent,
-                        ),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            _journeytime = newValue;
-                          });
-                        },
-                        items: <String>['00:00', '00:30', '01:00', '01:30','02:00', '02:30','03:00', '03:30','04:00', '04:30','05:00', '05:30','06:00', '06:30','07:00', '07:30','08:00', '08:30','09:00', '09:30','10:00', '10:30','11:00', '11:30','12:00', '13:30','14:00', '14:30','15:00', '15:30','16:00', '16:30','17:00', '17:30','18:00', '18:30','19:00', '19:30','20:00', '20:30','21:00', '21:30','22:00', '22:30','23:00', '23:30']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value,
-                            style: TextStyle(
-                              color: Colors.blueAccent,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold
-                            ),),
-                          );
-                        }).toList(),
+
+                        ],
                       ),
                     ],
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:18.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-
-                      Flexible(
-                        child: Text(
-                          'Select Journey Date : ',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Montserrat Medium'
-                          ),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: addtravelDetails.selectTravelType=="TO"?
+                          Text('Select Departure time: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, fontFamily: 'Montserrat Medium'),):Text('Select Arrival time: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, fontFamily: 'Montserrat Medium'),),
                         ),
-                      ),
-                      Flexible(
-                        child: FlatButton(
-                          onPressed: (){
-                                _selectDate(context);
+                        DropdownButton<String>(
+                          value: _journeytime,
+                          icon: Icon(Icons.access_time),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: TextStyle(color: Colors.deepPurple),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              _journeytime = newValue;
+                            });
                           },
-                          child: Text (
-                            _dateTime==null? "Please Select" : changetimeformat(_dateTime),
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blueAccent,
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 6,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:18.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
-                        child: Text(
-                          'No of person accompanying (excluding you) : ',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Montserrat Medium'
-                          ),
-                        ),
-                      ),
-                      DropdownButton<String>(
-                        value: _nofpersonsaccom ,
-                        icon: Icon(Icons.group),
-                        iconSize: 24,
-                        elevation: 16,
-                        style: TextStyle(color: Colors.deepPurple),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.deepPurpleAccent,
-                        ),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            _nofpersonsaccom = newValue;
-                          });
-                        },
-                        items: <String>['0','1','2','3']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value,
+                          items: <String>['00:00', '00:30', '01:00', '01:30','02:00', '02:30','03:00', '03:30','04:00', '04:30','05:00', '05:30','06:00', '06:30','07:00', '07:30','08:00', '08:30','09:00', '09:30','10:00', '10:30','11:00', '11:30','12:00', '13:30','14:00', '14:30','15:00', '15:30','16:00', '16:30','17:00', '17:30','18:00', '18:30','19:00', '19:30','20:00', '20:30','21:00', '21:30','22:00', '22:30','23:00', '23:30']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value,
                               style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold
+                                color: Colors.blueAccent,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold
                               ),),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:18.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          'Phone Number : ',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Montserrat Medium'
-                          ),
+                            );
+                          }).toList(),
                         ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left:35),
-                          child: TextFormField(
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+
+                        Flexible(
+                          child: Text(
+                            'Select Journey Date : ',
                             style: TextStyle(
-                              fontSize: 20
-                            ),
-                            textAlign: TextAlign.end,
-                            onChanged: (value)
-                            {
-                              //get the pass
-                            },
-                            decoration:InputDecoration(
-                              contentPadding: EdgeInsets.only(left: 0, bottom: 1, top: 11, right: 15),
-
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Montserrat Medium'
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        Flexible(
+                          child: FlatButton(
+                            onPressed: (){
+                                  _selectDate(context);
+                            },
+                            child: Text (
+                              _dateTime==null? "Please Select" : changetimeformat(_dateTime),
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blueAccent,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom:18.0),
-                  child: RoundedButton(title: 'Submit',colour: Color(0xFF3F6AFE),
-                    onPressed: () async{
-                        String uid=loggedInUser.uid;
-                      _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), '0')).setData({
-                        'description':"new item",
-                        'event_date': _dateTime,
-                        'id':"yoyo",
-                        'title': '_dateTime',
+                  SizedBox(
+                    height: 6,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            'No of person accompanying (excluding you) : ',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Montserrat Medium'
+                            ),
+                          ),
+                        ),
+                        DropdownButton<String>(
+                          value: _nofpersonsaccom ,
+                          icon: Icon(Icons.group),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: TextStyle(color: Colors.deepPurple),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              _nofpersonsaccom = newValue;
+                            });
+                          },
+                          items: <String>['0','1','2','3']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value,
+                                style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold
+                                ),),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            'Phone Number : ',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Montserrat Medium'
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left:35),
+                            child: TextFormField(
+                              keyboardType: TextInputType.phone,
+                              style: TextStyle(
+                                fontSize: 20
+                              ),
+                              textAlign: TextAlign.end,
+                              onChanged: (value)
+                              {
+                                //get the phone number
+                                _phonenumber=value;
+                              },
+                              decoration:InputDecoration(
+                                //errorText:  ? 'Value Can\'t Be Empty' : null,
+                                contentPadding: EdgeInsets.only(left: 0, bottom: 1, top: 11, right: 15),
 
-                      });
-                  },),
-                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom:18.0),
+                    child: RoundedButton(title: 'Submit',colour: Color(0xFF3F6AFE),
+                      onPressed: () async{
+                          String check=checks(addtravelDetails.selectFrom,_dateTime.toString(),_journeytime,_phonenumber,addtravelDetails.selectModeoftravel);
+                          if(check=="Checks passed")
+                            {
+                              String uid=loggedInUser.uid;
+                              try{
+                                _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), '0')).setData({
+                                  'description':"new item",
+                                  'event_date': _dateTime,
+                                  'id':"yoyo",
+                                  'title': '_dateTime',
 
-              ],
-            )
-          ],
+                                });
+                              }
+                              catch(e)
+                                  {
+                                    setState(() {
+                                      showSpinner=false;
+                                    });
+                                    _showSnackBar(e.message, Colors.red[700]);
+                                    print(e+"in ConfirmAddtravelScreen DATABASE ERROR");
+
+                                  }
+
+                            }
+                          else//error
+                            {
+                              setState(() {
+                                showSpinner=false;
+                                _showSnackBar(check, Colors.red[700]);
+                              });
+                            }
+
+
+                    },),
+                  ),
+
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -421,4 +456,30 @@ changetimeformat(@required DateTime datetimepicked)
   String formattedDate = DateFormat('dd-MM-yyyy').format(datetimepicked);
   return formattedDate;
   
+}
+
+String checks(@required String placefrom,@required String dateoj, @required String timeofj,@required String phn,@required String modeofj)
+{
+  if(phn.isEmpty||phn==null)
+    {
+      return "All Fields are Mandatory";
+    }
+  else
+    {
+      if(modeofj.isEmpty||modeofj==null)
+        {
+          return "Error ! Retry from start";
+        }
+      else
+        {
+          if(dateoj.isEmpty||dateoj==null)
+            {
+              return "Please fill all the details";
+            }
+          else
+            {
+              return "Checks passed";
+            }
+        }
+    }
 }

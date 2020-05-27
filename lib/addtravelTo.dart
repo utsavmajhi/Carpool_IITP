@@ -1,4 +1,5 @@
 import 'package:carpool/ConfirmAddTravelScreen.dart';
+import 'package:carpool/PassArguments/AddtravelDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/PasswordResetScreen.dart';
 import 'package:carpool/RegistrationScreen.dart';
@@ -8,6 +9,7 @@ import 'package:carpool/constants.dart';
 import 'package:carpool/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'PassArguments/traveltype.dart';
+import 'PassArguments/AddtravelDetails.dart';
 
 class AddTravelTo extends StatefulWidget {
   static String id='AddTravel_TO';
@@ -191,42 +193,55 @@ Widget showListWidget(@required String traveltype, BuildContext context)
 
           padding: EdgeInsets.all(0),
           children: <Widget>[
-            destinationlistitems(destinationname: 'Patna Airport',Distance: "32",onTap: ()
-            {print(traveltype +'Patna Airport');
-            Navigator.pushNamed(context, ConfirmAddTravelScreen.id);},iconimage: "plane.png"),
+            destinationlistitems(destinationname: 'Patna Airport',Distance: "32",
+                onTap: () {
+              print(traveltype +'Patna Airport');
+              Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "TO",selectFrom: "IIT Patna",selectTo: "Patna Airport",selectModeoftravel: "Flight") );
+            },iconimage: "plane.png"),
             destinationlistitems(destinationname: 'Ara Junction',Distance: "86",onTap: ()
-            {print(traveltype +'Ara Junction');},iconimage: "trainicon.png"),
+            {print(traveltype +'Ara Junction');
+            Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "TO",selectFrom: "IIT Patna",selectTo: "Ara Junction",selectModeoftravel: "Railways") );},iconimage: "trainicon.png"),
             destinationlistitems(destinationname: 'Danapur Junction',Distance: "26",onTap: ()
-            {print(traveltype +'Danapur Junction');},iconimage: "trainicon.png"),
+            {print(traveltype +'Danapur Junction');
+            Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "TO",selectFrom: "IIT Patna",selectTo: "Danapur Junction",selectModeoftravel: "Railways") );},iconimage: "trainicon.png"),
             destinationlistitems(destinationname: 'Patna Junction',Distance: "34",onTap: ()
-            {print(traveltype+'Patna Junction');},iconimage: "trainicon.png",),
+            {print(traveltype+'Patna Junction');
+            Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "TO",selectFrom: "IIT Patna",selectTo: "Patna Junction",selectModeoftravel: "Railways") );},iconimage: "trainicon.png",),
             destinationlistitems(destinationname: 'Patliputra Junction',Distance: "29",onTap: ()
-            {print(traveltype+'Patliputra Junction');},iconimage: "trainicon.png"),
+            {print(traveltype+'Patliputra Junction');
+            Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "TO",selectFrom: "IIT Patna",selectTo: "Patliputra Junction",selectModeoftravel: "Railways") );},iconimage: "trainicon.png"),
             destinationlistitems(destinationname: 'Rajendra Nagar Terminal',Distance: "39",onTap: ()
-            {print(traveltype +'Rajendra Nagar Terminal');},iconimage: "trainicon.png"),
+            {print(traveltype +'Rajendra Nagar Terminal');
+            Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "TO",selectFrom: "IIT Patna",selectTo: "Rajendranagar Terminal",selectModeoftravel: "Railways") );},iconimage: "trainicon.png"),
 
 
 
           ],
         );
     }
-  else
+  else//for traveltype==FROM
     {
        return ListView(
         padding: EdgeInsets.all(0),
         children: <Widget>[
           destinationlistitems(destinationname: 'Patna Airport',Distance: "32",onTap: ()
-          {print(traveltype +'Patna Airport');},iconimage: "plane.png"),
+          {print(traveltype +'Patna Airport');
+          Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "FROM",selectFrom: "Patna Airport",selectTo: "IIT Patna",selectModeoftravel: "Flight") );},iconimage: "plane.png"),
           destinationlistitems(destinationname: 'Ara Junction',Distance: "86",onTap: ()
-          {print(traveltype +'Ara Junction');},iconimage: "trainicon.png"),
+          {print(traveltype +'Ara Junction');
+          Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "FROM",selectFrom: "Ara Junction",selectTo: "IIT Patna",selectModeoftravel: "Railways") );},iconimage: "trainicon.png"),
           destinationlistitems(destinationname: 'Danapur Junction',Distance: "26",onTap: ()
-          {print(traveltype +'Danapur Junction');},iconimage: "trainicon.png"),
+          {print(traveltype +'Danapur Junction');
+          Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "FROM",selectFrom: "Danapur Junction",selectTo: "IIT Patna",selectModeoftravel: "Railways") );},iconimage: "trainicon.png"),
           destinationlistitems(destinationname: 'Patna Junction',Distance: "34",onTap: ()
-          {print(traveltype+'Patna Junction');},iconimage: "trainicon.png",),
+          {print(traveltype+'Patna Junction');
+          Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "FROM",selectFrom: "Patna Junction",selectTo: "IIT Patna",selectModeoftravel: "Railways") );},iconimage: "trainicon.png",),
           destinationlistitems(destinationname: 'Patliputra Junction',Distance: "29",onTap: ()
-          {print(traveltype+'Patliputra Junction');},iconimage: "trainicon.png"),
+          {print(traveltype+'Patliputra Junction');
+          Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "FROM",selectFrom: "Patliputra Junction",selectTo: "IIT Patna",selectModeoftravel: "Railways") );},iconimage: "trainicon.png"),
           destinationlistitems(destinationname: 'Rajendra Nagar Terminal',Distance: "39",onTap: ()
-          {print(traveltype +'Rajendra Nagar Terminal');},iconimage: "trainicon.png"),
+          {print(traveltype +'Rajendra Nagar Terminal');
+          Navigator.pushNamed(context, ConfirmAddTravelScreen.id,arguments:AddtravelDetails(selectTravelType: "FROM",selectFrom: "Rajendranagar Terminal",selectTo: "IIT Patna",selectModeoftravel: "Railways") );},iconimage: "trainicon.png"),
 
 
         ],
