@@ -8,6 +8,12 @@ import 'package:carpool/constants.dart';
 import 'package:carpool/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final _firestore=Firestore.instance;
+FirebaseUser loggedInUser;
+
 class ConfirmAddTravelScreen extends StatefulWidget {
   static String id='ConfirmAddTravel_screen';
 
@@ -16,8 +22,32 @@ class ConfirmAddTravelScreen extends StatefulWidget {
 }
 
 class _ConfirmAddTravelScreenState extends State<ConfirmAddTravelScreen> {
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentUser();
+  }
+void getCurrentUser () async{
+  try{
+    final user=await _auth.currentUser();
+    if(user!=null)
+    {
+      loggedInUser=user;
+
+    }
+  }
+  catch(e)
+  {
+    print(e);
+  }
+
+}
+  final _auth=FirebaseAuth.instance;
+
   final List<String> subjects = ["Computer Science", "Biology", "Math","asdsa","ads","sad","asdsad","sadsadsa","dasdasdsa","asdasdsad"];
-  String dropdownValue = '00:00';
+  String _journeytime = '00:00';
 
 
   DateTime _dateTime=DateTime.now();
@@ -189,7 +219,7 @@ class _ConfirmAddTravelScreenState extends State<ConfirmAddTravelScreen> {
                         ),
                       ),
                       DropdownButton<String>(
-                        value: dropdownValue,
+                        value: _journeytime,
                         icon: Icon(Icons.access_time),
                         iconSize: 24,
                         elevation: 16,
@@ -200,7 +230,7 @@ class _ConfirmAddTravelScreenState extends State<ConfirmAddTravelScreen> {
                         ),
                         onChanged: (String newValue) {
                           setState(() {
-                            dropdownValue = newValue;
+                            _journeytime = newValue;
                           });
                         },
                         items: <String>['00:00', '00:30', '01:00', '01:30','02:00', '02:30','03:00', '03:30','04:00', '04:30','05:00', '05:30','06:00', '06:30','07:00', '07:30','08:00', '08:30','09:00', '09:30','10:00', '10:30','11:00', '11:30','12:00', '13:30','14:00', '14:30','15:00', '15:30','16:00', '16:30','17:00', '17:30','18:00', '18:30','19:00', '19:30','20:00', '20:30','21:00', '21:30','22:00', '22:30','23:00', '23:30']
@@ -293,8 +323,16 @@ class _ConfirmAddTravelScreenState extends State<ConfirmAddTravelScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                RoundedButton(title: 'Submit',colour: Color(0xFF3F6AFE),onPressed: (){
+                RoundedButton(title: 'Submit',colour: Color(0xFF3F6AFE),
+                  onPressed: () async{
+                      String uid=loggedInUser.uid;
+                    _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()).setData({
+                      'description':"new item",
+                      'event_date': _dateTime,
+                      'id':"yoyo",
+                      'title': '_dateTime',
 
+                    });
                 },),
 
               ],
