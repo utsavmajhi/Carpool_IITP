@@ -143,7 +143,7 @@ void getCurrentUser () async{
                               borderRadius:BorderRadius.circular(20),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Image.asset("images/school.png"),
+                                child: Image.asset("images/iitplogo.png"),
                               ),
                             )
                         ),
