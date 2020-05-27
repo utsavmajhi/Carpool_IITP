@@ -6,13 +6,30 @@ class EventModel extends DatabaseItem{
   final String description;
   final DateTime eventDate;
 
-  EventModel({this.id,this.title, this.description, this.eventDate}):super(id);
+  final String placefrom;
+  final String placeto;
+  final String modeofj;
+  final String timeofj;
+  final String phn;
+  final String nofpeople;
+  final String creatoruid;
+
+
+  EventModel({this.id,this.title, this.description, this.eventDate,this.placefrom,this.placeto,this.modeofj,this.timeofj,this.phn,this.nofpeople,this.creatoruid}):super(id);
 
   factory EventModel.fromMap(Map data) {
     return EventModel(
       title: data['title'],
       description: data['description'],
       eventDate: data['event_date'],
+
+      placefrom: data['placefrom'],
+      placeto: data['placeto'],
+      modeofj: data['modeofj'],
+      timeofj: data['timeofj'],
+      phn: data['phone'],
+      nofpeople: data['nofpeople'],
+      creatoruid: data['creatoruid'],
     );
   }
 
@@ -22,6 +39,14 @@ class EventModel extends DatabaseItem{
       title: data['title'],
       description: data['description'],
       eventDate: data['event_date'].toDate(),
+
+      placefrom: data['placefrom'],
+      placeto: data['placeto'],
+      modeofj: data['modeofj'],
+      timeofj: data['timeofj'],
+      phn: data['phone'],
+      nofpeople: data['nofpeople'],
+      creatoruid: data['creatoruid'],
     );
   }
 
@@ -31,6 +56,12 @@ class EventModel extends DatabaseItem{
       "description": description,
       "event_date":eventDate,
       "id":id,
+      "placefrom":placefrom,
+      "placeto":placeto,
+      "modeofj":modeofj,
+      "timeofj": timeofj,
+      "phn":phn,
+      "nofpeople": nofpeople
     };
   }
 }
