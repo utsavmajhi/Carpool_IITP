@@ -326,7 +326,7 @@ void getCurrentUser () async{
                 RoundedButton(title: 'Submit',colour: Color(0xFF3F6AFE),
                   onPressed: () async{
                       String uid=loggedInUser.uid;
-                    _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()).setData({
+                    _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), '0')).setData({
                       'description':"new item",
                       'event_date': _dateTime,
                       'id':"yoyo",

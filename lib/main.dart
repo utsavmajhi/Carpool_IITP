@@ -1,3 +1,4 @@
+import 'package:carpool/CalenderUI.dart';
 import 'package:carpool/ConfirmAddTravelScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/LoginScreen.dart';
@@ -26,6 +27,7 @@ class Carpool extends StatelessWidget {
         AddTravelWaypoint.id:(context) => AddTravelWaypoint(),
         AddTravelTo.id:(context) => AddTravelTo(),
         ConfirmAddTravelScreen.id:(context) => ConfirmAddTravelScreen(),
+        CalenderUI.id:(context) => CalenderUI(),
 
       },
     );
