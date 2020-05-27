@@ -49,9 +49,10 @@ void getCurrentUser () async{
   final List<String> subjects = ["Computer Science", "Biology", "Math","asdsa","ads","sad","asdsad","sadsadsa","dasdasdsa","asdasdsad"];
   String _journeytime = '00:00';
 
+  String _nofpersonsaccom='0';
+DateTime _dateTime=DateTime.now();
 
-  DateTime _dateTime=DateTime.now();
-
+//date picker from calendar
   Future<Null> _selectDate(BuildContext context) async {
    final DateTime picked=await showDatePicker(context: context, initialDate: _dateTime, firstDate: DateTime(2016), lastDate: DateTime(2222));
    if(picked!=null && picked !=_dateTime)
@@ -64,7 +65,6 @@ void getCurrentUser () async{
   }
 
   //String time=DateFormat('yMd').format(_dateTime);
-  String selectedSubject = "Biology";
   @override
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;
@@ -283,6 +283,55 @@ void getCurrentUser () async{
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 6,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:18.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Flexible(
+                        child: Text(
+                          'No of person accompanying (excluding you) : ',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Montserrat Medium'
+                          ),
+                        ),
+                      ),
+                      DropdownButton<String>(
+                        value: _nofpersonsaccom ,
+                        icon: Icon(Icons.group),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(color: Colors.deepPurple),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            _nofpersonsaccom = newValue;
+                          });
+                        },
+                        items: <String>['0','1','2','3']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value,
+                              style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold
+                              ),),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal:18.0),
                   child: Row(
@@ -323,17 +372,20 @@ void getCurrentUser () async{
                 SizedBox(
                   height: 20,
                 ),
-                RoundedButton(title: 'Submit',colour: Color(0xFF3F6AFE),
-                  onPressed: () async{
-                      String uid=loggedInUser.uid;
-                    _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), '0')).setData({
-                      'description':"new item",
-                      'event_date': _dateTime,
-                      'id':"yoyo",
-                      'title': '_dateTime',
+                Padding(
+                  padding: const EdgeInsets.only(bottom:18.0),
+                  child: RoundedButton(title: 'Submit',colour: Color(0xFF3F6AFE),
+                    onPressed: () async{
+                        String uid=loggedInUser.uid;
+                      _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), '0')).setData({
+                        'description':"new item",
+                        'event_date': _dateTime,
+                        'id':"yoyo",
+                        'title': '_dateTime',
 
-                    });
-                },),
+                      });
+                  },),
+                ),
 
               ],
             )
