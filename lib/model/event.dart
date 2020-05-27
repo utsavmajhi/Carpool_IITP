@@ -13,9 +13,10 @@ class EventModel extends DatabaseItem{
   final String phn;
   final String nofpeople;
   final String creatoruid;
+  final String creatorname;
 
 
-  EventModel({this.id,this.title, this.description, this.eventDate,this.placefrom,this.placeto,this.modeofj,this.timeofj,this.phn,this.nofpeople,this.creatoruid}):super(id);
+  EventModel({this.id,this.title, this.description, this.eventDate,this.placefrom,this.placeto,this.modeofj,this.timeofj,this.phn,this.nofpeople,this.creatoruid,this.creatorname}):super(id);
 
   factory EventModel.fromMap(Map data) {
     return EventModel(
@@ -30,6 +31,7 @@ class EventModel extends DatabaseItem{
       phn: data['phone'],
       nofpeople: data['nofpeople'],
       creatoruid: data['creatoruid'],
+      creatorname: data['creatorname'],
     );
   }
 
@@ -47,6 +49,7 @@ class EventModel extends DatabaseItem{
       phn: data['phone'],
       nofpeople: data['nofpeople'],
       creatoruid: data['creatoruid'],
+      creatorname: data['creatorname']
     );
   }
 
@@ -56,12 +59,15 @@ class EventModel extends DatabaseItem{
       "description": description,
       "event_date":eventDate,
       "id":id,
+
       "placefrom":placefrom,
       "placeto":placeto,
       "modeofj":modeofj,
       "timeofj": timeofj,
       "phn":phn,
-      "nofpeople": nofpeople
+      "nofpeople": nofpeople,
+      "creatoruid":creatoruid,
+      "creatorname" :creatorname,
     };
   }
 }

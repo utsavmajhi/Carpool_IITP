@@ -1,3 +1,4 @@
+import 'package:carpool/HomeScreen.dart';
 import 'package:carpool/addtravelTo.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/PasswordResetScreen.dart';
@@ -12,7 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:carpool/PassArguments/AddtravelDetails.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-
+String _username="default";
 final _firestore=Firestore.instance;
 FirebaseUser loggedInUser;
 
@@ -388,14 +389,38 @@ void getCurrentUser () async{
                           String check=checks(addtravelDetails.selectFrom,_dateTime.toString(),_journeytime,_phonenumber,addtravelDetails.selectModeoftravel);
                           if(check=="Checks passed")
                             {
+                              setState(() {
+                                showSpinner=true;
+                              });
                               String uid=loggedInUser.uid;
                               try{
-                                _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), '0')).setData({
-                                  'description':"new item",
+                               await _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), '0')).setData({
+                                  'description':"Extra",
                                   'event_date': _dateTime,
                                   'id':"yoyo",
                                   'title': '_dateTime',
+                                  'placefrom' : addtravelDetails.selectFrom,
+                                  'placeto': addtravelDetails.selectTo,
+                                  'modeofj': addtravelDetails.selectModeoftravel,
+                                  'timeofj':_journeytime,
+                                  'phone':_phonenumber,
+                                  'nofpeople':_nofpersonsaccom,
+                                  'creatoruid':uid,
+                                  'creatorname': _username,
+                                }).whenComplete(() {
+                                  _showSnackBar("Successfully Added", Colors.green);
 
+                                  Future.delayed(const Duration(milliseconds: 2000), () {
+                                      // Here you can write your code
+                                    setState(() {
+                                      // Here you can write your code for open new view
+                                      Navigator.pushNamed(context, HomeScreen.id);
+                                    });
+
+                                  });
+                                });
+                                setState(() {
+                                  showSpinner=false;
                                 });
                               }
                               catch(e)
@@ -413,8 +438,9 @@ void getCurrentUser () async{
                             {
                               setState(() {
                                 showSpinner=false;
-                                _showSnackBar(check, Colors.red[700]);
+
                               });
+                              _showSnackBar(check, Colors.red[700]);
                             }
 
 

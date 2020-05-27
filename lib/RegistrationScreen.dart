@@ -6,8 +6,8 @@ import 'package:carpool/constants.dart';
 import 'package:carpool/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+final _firestore=Firestore.instance;
 class RegistrationScreen extends StatefulWidget {
   static String id='registration_screen';
   @override
@@ -298,8 +298,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> with TickerProv
                                await _authenticatedUser.sendEmailVerification();
                              if(await newUser!=null)
                                {
+                                 String uid=_authenticatedUser.uid;
                                  //Navigator.pushNamed(context, ChatScreen.id);
-
+                                  //firestore datacollection starts
+                                 await _firestore.collection('UsersData').document(uid).setData({
+                                   'username':_fullname,
+                                   'institutemail':_institutemail.toLowerCase().trim(),
+                                   'Alternatemail':_altemail.toLowerCase().trim(),
+                                   'Phone':_phonenum,
+                                   'Extra1':"default",
+                                   'Extra2':"default",
+                                 });
                                   setState(() {
                                     showSpinner=false;
                                   });

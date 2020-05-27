@@ -160,7 +160,7 @@ class _HomePageState extends State<CalenderUI> {
                         calendarController: _controller,
                       ),
                       ..._selectedEvents.map((event) => ListTile(
-                        title: Text(event.title),
+                        title: Text(event.creatoruid),
                         onTap: () {
                           //clicking on events shown on list
                         },

@@ -8,32 +8,38 @@ import 'package:carpool/constants.dart';
 import 'package:carpool/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:carpool/firebaseServices/Crud.dart';
 
 
+FirebaseUser loggedInUser;
+final _firestore=Firestore.instance;
 class LoginScreen extends StatefulWidget {
-  static String id='login_screen';
-
+  static String id = 'login_screen';
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin{
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
 
-  GlobalKey<ScaffoldState> _scaffoldKey= new GlobalKey<ScaffoldState>();
-  bool showSpinner=false;
-  final _auth=FirebaseAuth.instance;
+  crudMethods crudObj=new crudMethods();
+
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool showSpinner = false;
+  final _auth = FirebaseAuth.instance;
   String email;
   String password;
-
+  DocumentSnapshot userdetails;
   bool _obscureText = true;
   bool passwordVisible;
   //for toggling password view
 
   //snackbar initialises
   _showSnackBar(@required String message, @required Color colors) {
-    if(_scaffoldKey!=null)
-    {
+    if (_scaffoldKey != null) {
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
           backgroundColor: colors,
@@ -42,15 +48,29 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         ),
       );
     }
-
   }
-
 
   @override
   void initState() {
     passwordVisible = false;
+    getCurrentUser();
   }
+  void getCurrentUser () async{
+    try{
+      final user=await _auth.currentUser();
+      if(user!=null)
+      {
+        loggedInUser=user;
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
 
+      }
+    }
+    catch(e)
+    {
+      print(e);
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,18 +79,18 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         inAsyncCall: showSpinner,
         child: SingleChildScrollView(
           child: Column(
-            mainAxisSize:  MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ClipPath(
                 clipper: MyClipper(),
                 child: Container(
                   height: 260,
                   decoration: BoxDecoration(
-                      /*image: DecorationImage(
+                    /*image: DecorationImage(
                         image: AssetImage('images/back1.jpg'),
                         fit: BoxFit.cover,
                       ),*/
-                      color: Color(0xFF355AFE),
+                    color: Color(0xFF355AFE),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -82,46 +102,41 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                             radius: (38),
                             backgroundColor: Colors.white,
                             child: ClipRRect(
-                              borderRadius:BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(20),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Image.asset("images/carlogo.png"),
                               ),
-                            )
-                        ),
+                            )),
                       ),
                       Center(
                         child: Text(
                           'Welcome',
                           style: GoogleFonts.raleway(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 45
-                          ),
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 45),
                         ),
                       ),
                     ],
                   ),
-
                 ),
               ),
               SizedBox(
                 height: 30,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 30,top: 20,right: 30,bottom: 20),
+                padding: const EdgeInsets.only(
+                    left: 30, top: 20, right: 30, bottom: 20),
                 child: TextFormField(
-
                   textAlign: TextAlign.start,
-                  onChanged: (value)
-                  {
+                  onChanged: (value) {
                     //get the email
-                    email=value;
-
+                    email = value;
                   },
-                  decoration:InputDecoration(
-
-                    contentPadding: EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(
+                        left: 15, bottom: 11, top: 11, right: 15),
                     labelText: 'Institute Email',
                     prefixIcon: Icon(Icons.email),
                     labelStyle: TextStyle(
@@ -129,35 +144,34 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       fontWeight: FontWeight.w600,
                       fontSize: 17,
                     ),
-
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 30,top: 10,right: 30,bottom: 20),
+                padding: const EdgeInsets.only(
+                    left: 30, top: 10, right: 30, bottom: 20),
                 child: TextFormField(
                   obscureText: _obscureText,
                   textAlign: TextAlign.start,
-                  onChanged: (value)
-                  {
+                  onChanged: (value) {
                     //get the pass
-                    password=value;
+                    password = value;
                   },
-                  decoration:InputDecoration(
-
-                    contentPadding: EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(
+                        left: 15, bottom: 11, top: 11, right: 15),
                     labelText: 'Password',
-
                     prefixIcon: Icon(Icons.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        passwordVisible?Icons.visibility:Icons.visibility_off,
-                          color: Colors.grey
-                      ),
-                      onPressed: (){
+                          passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.grey),
+                      onPressed: () {
                         setState(() {
-                          passwordVisible=!passwordVisible;
-                          _obscureText= !_obscureText;
+                          passwordVisible = !passwordVisible;
+                          _obscureText = !_obscureText;
                         });
                       },
                     ),
@@ -166,7 +180,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       fontWeight: FontWeight.w600,
                       fontSize: 17,
                     ),
-
                   ),
                 ),
               ),
@@ -174,14 +187,13 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   GestureDetector(
-                    onTap: ()
-                    {
+                    onTap: () {
                       //Navigate to forgot password page
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 12),
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           //goto passwordresetScreen
                           Navigator.pushNamed(context, PasswordResetScreen.id);
                         },
@@ -203,61 +215,71 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    RoundedButton(title: 'Login',colour: Color(0xFF3F6AFE),
-                      onPressed: () async{
-                          //backends starts
+                    RoundedButton(
+                      title: 'Login',
+                      colour: Color(0xFF3F6AFE),
+                      onPressed: () async {
+                        //backends starts
 
-                        String check=checkparameters(email.toLowerCase().trim(), password);
-                        if(check=="Checks passed")
-                          {
-                            setState(() {
-                              showSpinner=true;
-                            });
-                            try{
-                              var user=await _auth.signInWithEmailAndPassword(email: email.toLowerCase().trim(), password: password);
-                              var _authenticatedUser = await _auth.currentUser();
-                              if(await _authenticatedUser.isEmailVerified)
-                              {
-                                print("Email is :"+_authenticatedUser.isEmailVerified.toString());
-                                Navigator.pushNamed(context,HomeScreen.id);
-                               await _showSnackBar('Email is verified',Colors.lightGreen);
-                                setState(() {
-                                  showSpinner=false;
-                                });
-                              }
-                              else
-                              {
-                                print("Email is :"+_authenticatedUser.isEmailVerified.toString());
-                                _showSnackBar('Email is not verified ! Please verify your email',Colors.red[600]);
-                                setState(() {
-                                  showSpinner=false;
-                                });
-                              }
+                        String check = checkparameters(
+                            email.toLowerCase().trim(), password);
+                        if (check == "Checks passed") {
+                          setState(() {
+                            showSpinner = true;
+                          });
+                          try {
+                            var user = await _auth.signInWithEmailAndPassword(
+                                email: email.toLowerCase().trim(),
+                                password: password);
+                            var _authenticatedUser = await _auth.currentUser();
+                            if (await _authenticatedUser.isEmailVerified) {
+                              print("Email is :" +
+                                  _authenticatedUser.isEmailVerified
+                                      .toString());
+                              var document = await Firestore.instance.document('UsersData/'+_authenticatedUser.uid).get();
+                               String username=document.data['username'];
+                               String institutemail=document.data['institutemail'];
+                               String phone=document.data['Phone'];
+                               String altemail=document.data['Alternatemail'];
 
-                            }
-                            catch(e)
-                            {
-                              _showSnackBar(e.message,Colors.red[600]);
-                              print(e);
+                               //setting values to shared preferences
+                               String mcheck= await setsharedprefs(username,phone,altemail,_authenticatedUser.uid);
+                               if(await mcheck=="true")
+                                 {
+                                   Navigator.pushReplacementNamed(context, HomeScreen.id);
+                                 }
+
+
+                              // await _showSnackBar('Email is verified',Colors.lightGreen);
                               setState(() {
-                                showSpinner=false;
+                                showSpinner = false;
                               });
-
+                            } else {
+                              print("Email is :" +
+                                  _authenticatedUser.isEmailVerified
+                                      .toString());
+                              _showSnackBar(
+                                  'Email is not verified ! Please verify your email',
+                                  Colors.red[600]);
+                              setState(() {
+                                showSpinner = false;
+                              });
                             }
-                          }
-                        else
-                          {
+                          } catch (e) {
+                            _showSnackBar(e.message, Colors.red[600]);
+                            print(e);
                             setState(() {
-                              showSpinner=false;
+                              showSpinner = false;
                             });
-                            _showSnackBar(check,Colors.red[700]);
                           }
-
-
-
-
-
-                    },),
+                        } else {
+                          setState(() {
+                            showSpinner = false;
+                          });
+                          _showSnackBar(check, Colors.red[700]);
+                        }
+                      },
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(26.0),
                       child: Row(
@@ -266,32 +288,30 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           Text(
                             'New User ?',
                             style: TextStyle(
-                              color: Color(0xFFB2BCC8),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600
-                            ),
+                                color: Color(0xFFB2BCC8),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
                           ),
                           GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               //goto registration page
-                              Navigator.pushNamed(context, RegistrationScreen.id);
+                              Navigator.pushNamed(
+                                  context, RegistrationScreen.id);
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Text(
                                 'Signup',
                                 style: TextStyle(
-                                  color: Color(0xFF2E50FF),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600
-                                ),
+                                    color: Color(0xFF2E50FF),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
                               ),
                             ),
                           )
                         ],
                       ),
                     )
-
                   ],
                 ),
               )
@@ -304,44 +324,35 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 }
 
 //credentials checks
-String checkparameters(@required String institutemail,@required String password) {
-  if(institutemail.isEmpty||password.isEmpty||institutemail==null||password==null)
-  {
+String checkparameters(
+    @required String institutemail, @required String password) {
+  if (institutemail.isEmpty ||
+      password.isEmpty ||
+      institutemail == null ||
+      password == null) {
     return "All Fields are Mandatory";
-  }
-  else
-  {
-    if(password.length<6)
-    {
+  } else {
+    if (password.length < 6) {
       return "Password Length is less than 6";
-    }
-    else
-    {
-      if(!(institutemail.contains("@iitp")))
-      {
+    } else {
+      if (!(institutemail.contains("@iitp"))) {
         return "Please ! Use Webmail Id for Institute Email";
-      }
-      else
-      {
+      } else {
         return "Checks passed";
       }
     }
   }
-
 }
-
-
-
-
-
 
 class MyClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    var path=Path();
-    path.lineTo(0.0,size.height-40);
-    path.quadraticBezierTo(size.width/4, size.height, size.width/2, size.height);
-    path.quadraticBezierTo(size.width-(size.width/4), size.height, size.width, size.height-40);
+    var path = Path();
+    path.lineTo(0.0, size.height - 40);
+    path.quadraticBezierTo(
+        size.width / 4, size.height, size.width / 2, size.height);
+    path.quadraticBezierTo(size.width - (size.width / 4), size.height,
+        size.width, size.height - 40);
     path.lineTo(size.width, 0.0);
     return path;
   }
@@ -350,5 +361,17 @@ class MyClipper extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) {
     return false;
   }
+}
+
+//shared preferences
+Future<String> setsharedprefs(@required String username,@required String phone,@required String altemail,@required String uid) async
+{
+  SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+  await sharedPreferences.setString('username', username);
+  await sharedPreferences.setString('userphone', phone);
+  await sharedPreferences.setString('useralternatemail', altemail);
+  await sharedPreferences.setString('UID', uid);
+  sharedPreferences.commit();
+  return "true";
 
 }

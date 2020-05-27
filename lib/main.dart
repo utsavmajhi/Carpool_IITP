@@ -8,12 +8,14 @@ import 'package:carpool/RegistrationScreen.dart';
 import 'package:carpool/HomeScreen.dart';
 import 'package:carpool/addtravelwaypoint.dart';
 import 'package:carpool/addtravelTo.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+final _auth = FirebaseAuth.instance;
 void main() {
   runApp(Carpool());
 }
 
 class Carpool extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(

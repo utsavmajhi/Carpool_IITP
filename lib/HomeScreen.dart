@@ -1,4 +1,5 @@
 import 'package:carpool/CalenderUI.dart';
+import 'package:carpool/LoginScreen.dart';
 import 'package:carpool/addtravelwaypoint.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/PasswordResetScreen.dart';
@@ -8,7 +9,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:carpool/constants.dart';
 import 'package:carpool/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+
+String user_name="User";
 class HomeScreen extends StatefulWidget {
   static String id='home_screen';
   @override
@@ -16,14 +21,39 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final _auth = FirebaseAuth.instance;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   getvaluesfromshared();
+  }
+
+  void getvaluesfromshared() async
+  {
+    SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+    String username=sharedPreferences.getString('username');
+    print(username);
+    setState(() {
+      if(user_name!=null){
+        user_name= username;
+      }
+
+      });
+  }
+  _signOut() async {
+    await _auth.signOut();
+  }
   @override
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;
     return Scaffold(
       extendBodyBehindAppBar: true,
         body: Stack(
-          alignment: Alignment.topCenter,
+          alignment: Alignment.topRight,
           children: <Widget>[
+
             ClipPath(
               clipper: MyClipper(),
               child: Container(
@@ -34,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               ),
             ),
+
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -65,14 +96,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Text(
-                                'Utsav',
+                                user_name,
                                 style: TextStyle(
                                     fontFamily: 'Montserrat Medium',
                                     color: Colors.white,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),
-                              )
+                              ),
+
+
                             ],
                           )
                         ],
@@ -220,7 +253,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 40),
+              child: IconButton(
+                alignment: Alignment.topRight,
+                onPressed: () async{
+                  _signOut();//signout from firebase
+                  SharedPreferences preferences = await SharedPreferences.getInstance();
+                  await preferences.clear();
+                  Navigator.pushReplacementNamed(context, LoginScreen.id);
+                },
+                icon:Icon(Icons.exit_to_app,size: 35,color: Colors.white,),
+              ),
+            ),
 
           ],
         ),
@@ -244,3 +290,4 @@ class MyClipper extends CustomClipper<Path> {
   }
 
 }
+
