@@ -9,7 +9,7 @@ class EventModel extends DatabaseItem{
   final String placefrom;
   final String placeto;
   final String modeofj;
-  final String timeofj;
+  final DateTime timeofj;
   final String phn;
   final String nofpeople;
   final String creatoruid;
@@ -45,7 +45,7 @@ class EventModel extends DatabaseItem{
       placefrom: data['placefrom'],
       placeto: data['placeto'],
       modeofj: data['modeofj'],
-      timeofj: data['timeofj'],
+      timeofj: data['timeofj'].toDate(),
       phn: data['phone'],
       nofpeople: data['nofpeople'],
       creatoruid: data['creatoruid'],

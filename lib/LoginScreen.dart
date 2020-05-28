@@ -243,7 +243,7 @@ class _LoginScreenState extends State<LoginScreen>
                                String altemail=document.data['Alternatemail'];
 
                                //setting values to shared preferences
-                               String mcheck= await setsharedprefs(username,phone,altemail,_authenticatedUser.uid);
+                               String mcheck= await setsharedprefs(username,phone,institutemail,altemail,_authenticatedUser.uid);
                                if(await mcheck=="true")
                                  {
                                    Navigator.pushReplacementNamed(context, HomeScreen.id);
@@ -364,11 +364,12 @@ class MyClipper extends CustomClipper<Path> {
 }
 
 //shared preferences
-Future<String> setsharedprefs(@required String username,@required String phone,@required String altemail,@required String uid) async
+Future<String> setsharedprefs(@required String username,@required String phone,@required String instiemail,@required String altemail,@required String uid) async
 {
   SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
   await sharedPreferences.setString('username', username);
   await sharedPreferences.setString('userphone', phone);
+  await sharedPreferences.setString('userinstimail', phone);
   await sharedPreferences.setString('useralternatemail', altemail);
   await sharedPreferences.setString('UID', uid);
   sharedPreferences.commit();

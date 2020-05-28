@@ -13,7 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-String user_name="User";
+
 class HomeScreen extends StatefulWidget {
   static String id='home_screen';
   @override
@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  String user_name="User";
   final _auth = FirebaseAuth.instance;
   @override
   void initState() {
@@ -42,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       });
   }
+  //sigout from firebase auth
   _signOut() async {
     await _auth.signOut();
   }

@@ -13,6 +13,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:carpool/PassArguments/AddtravelDetails.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 String _username="default";
 final _firestore=Firestore.instance;
 FirebaseUser loggedInUser;
@@ -31,7 +33,16 @@ class _ConfirmAddTravelScreenState extends State<ConfirmAddTravelScreen> {
     // TODO: implement initState
     super.initState();
     getCurrentUser();
+    getvaluesfromshared();
   }
+
+void getvaluesfromshared() async
+{
+  SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+  String username=sharedPreferences.getString('username');
+  _username=username;
+}
+
 void getCurrentUser () async{
   try{
     final user=await _auth.currentUser();
@@ -54,7 +65,6 @@ void getCurrentUser () async{
   String _journeytime = '00:00';
   String _nofpersonsaccom='0';
   DateTime _dateTime=DateTime.now();
-
 
   //snackbar initialises
   _showSnackBar(@required String message, @required Color colors) {
@@ -103,7 +113,7 @@ void getCurrentUser () async{
               ClipPath(
                 clipper: MyClipper(),
                 child: Container(
-                  height: size.height*.38,
+                  height: size.height*.34,
                   decoration: BoxDecoration(
                     /*image: DecorationImage(
                             image: AssetImage('images/back1.jpg'),
@@ -138,7 +148,7 @@ void getCurrentUser () async{
                           style: GoogleFonts.raleway(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
-                              fontSize: 45
+                              fontSize: 35
                           ),
                         ),
                       ),
@@ -394,15 +404,17 @@ void getCurrentUser () async{
                               });
                               String uid=loggedInUser.uid;
                               try{
-                               await _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), '0')).setData({
-                                  'description':"Extra",
+
+                                var parsedDate = DateTime.parse('2020-01-01 $_journeytime:00.000');
+                               await _firestore.collection("events").document(uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), 'z')).setData({
+                                  'description':addtravelDetails.selectTravelType,
                                   'event_date': _dateTime,
                                   'id':"yoyo",
                                   'title': '_dateTime',
                                   'placefrom' : addtravelDetails.selectFrom,
                                   'placeto': addtravelDetails.selectTo,
                                   'modeofj': addtravelDetails.selectModeoftravel,
-                                  'timeofj':_journeytime,
+                                  'timeofj': parsedDate,
                                   'phone':_phonenumber,
                                   'nofpeople':_nofpersonsaccom,
                                   'creatoruid':uid,
@@ -418,7 +430,7 @@ void getCurrentUser () async{
                                     });
 
                                   });
-                                });
+                                }).then((value) => Firestore.instance.collection('events').orderBy('timeofj'));
                                 setState(() {
                                   showSpinner=false;
                                 });
@@ -480,6 +492,7 @@ class MyClipper extends CustomClipper<Path> {
 changetimeformat(@required DateTime datetimepicked)
 {
   String formattedDate = DateFormat('dd-MM-yyyy').format(datetimepicked);
+
   return formattedDate;
   
 }
