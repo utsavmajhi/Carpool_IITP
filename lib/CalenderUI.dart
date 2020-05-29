@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/res/event_firestore_service.dart';
@@ -6,7 +7,7 @@ import 'package:carpool/model/event.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-
+import 'package:firebase_helpers/firebase_helpers.dart';
 class CalenderUI extends StatefulWidget {
   static String id='calender_screen';
   @override
@@ -37,6 +38,16 @@ class _HomePageState extends State<CalenderUI> {
     return data;
   }
 
+
+  Stream<List<EventModel>> streamListCustom() {
+
+    var ref = Firestore.instance.collection("events").orderBy("timeofj");
+    return ref.snapshots().map((list) =>
+        list.documents.map((doc) => eventDBS.fromDS(doc.documentID, doc.data)).toList());
+  }
+
+  OrderBy orderBy=new OrderBy('timeofj');
+  List<OrderBy> order;
   @override
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;
@@ -46,8 +57,9 @@ class _HomePageState extends State<CalenderUI> {
         backgroundColor: Colors.transparent,
       ),
       extendBodyBehindAppBar: true,
+
       body: StreamBuilder<List<EventModel>>(
-          stream: eventDBS.streamList(),
+          stream: streamListCustom(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<EventModel> allEvents = snapshot.data;
