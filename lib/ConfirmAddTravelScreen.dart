@@ -29,22 +29,30 @@ class ConfirmAddTravelScreen extends StatefulWidget {
 class _ConfirmAddTravelScreenState extends State<ConfirmAddTravelScreen> {
 
 @override
-  void initState() {
-    // TODO: implement initState
+  void initState(){
     super.initState();
     getCurrentUser();
     getvaluesfromshared();
+    _phonecontroller = TextEditingController(text:_phonenumber);
+
+
   }
 
-void getvaluesfromshared() async
+Future<bool> getvaluesfromshared() async
 {
   SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
   String username=sharedPreferences.getString('username');
   _username=username;
+  String defaultphn=sharedPreferences.getString('userphone');
+  _phonenumber=defaultphn;
+  setState(() {
+    _phonecontroller = TextEditingController(text:_phonenumber);
+  });
+
+  return true;
 }
 
-void getCurrentUser () async{
-  try{
+void getCurrentUser () async{ try{
     final user=await _auth.currentUser();
     if(user!=null)
     {
@@ -65,7 +73,7 @@ void getCurrentUser () async{
   String _journeytime = '00:00';
   String _nofpersonsaccom='0';
   DateTime _dateTime=DateTime.now();
-
+  TextEditingController _phonecontroller;
   //snackbar initialises
   _showSnackBar(@required String message, @required Color colors) {
     if(_scaffoldKey!=null)
@@ -80,6 +88,8 @@ void getCurrentUser () async{
     }
 
   }
+
+
 
 //date picker from calendar
   Future<Null> _selectDate(BuildContext context) async {
@@ -369,6 +379,7 @@ void getCurrentUser () async{
                             padding: const EdgeInsets.only(left:35),
                             child: TextFormField(
                               keyboardType: TextInputType.phone,
+                              controller: _phonecontroller,
                               style: TextStyle(
                                 fontSize: 20
                               ),
