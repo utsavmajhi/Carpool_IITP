@@ -48,19 +48,22 @@ class _AddTravelWaypointState extends State<AddTravelWaypoint> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                            radius: (38),
-                            backgroundColor: Colors.white,
-                            child: ClipRRect(
-                              borderRadius:BorderRadius.circular(20),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                        child: Hero(
+                          tag: 'AddTravelHero',
+                          child: CircleAvatar(
+                              radius: (38),
+                              backgroundColor: Colors.white,
+                              child: ClipRRect(
+                                borderRadius:BorderRadius.circular(20),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: SvgPicture.asset('images/travel2.svg'),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: SvgPicture.asset('images/travel2.svg'),
+                                  ),
                                 ),
-                              ),
-                            )
+                              )
+                          ),
                         ),
                       ),
                       Center(

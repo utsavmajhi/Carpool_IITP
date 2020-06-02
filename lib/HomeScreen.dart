@@ -138,7 +138,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
-                                        SvgPicture.asset('images/travel2.svg',height: 110,),
+                                        Hero(tag: 'AddTravelHero',
+                                            child: SvgPicture.asset('images/travel2.svg',height: 110,)),
                                         SizedBox(
                                           height: 10 ,
                                         ),
@@ -192,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               },
                               child: Padding(
-                                padding: const EdgeInsets.all(0.0),
+                                padding: const EdgeInsets.all(2.0),
                                 child: Card(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -202,7 +203,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      SvgPicture.asset('images/calendar.svg',height: 100,),
+                                      Hero(tag: 'CalenderHero',
+                                          child: SvgPicture.asset('images/calendar.svg',height: 100,)),
                                       SizedBox(
                                         height: 20,
                                       ),
