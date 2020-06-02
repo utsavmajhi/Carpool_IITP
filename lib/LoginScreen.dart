@@ -11,6 +11,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:carpool/firebaseServices/Crud.dart';
+import 'package:carpool/bottomsheet_widget.dart';
 
 
 FirebaseUser loggedInUser;
@@ -24,6 +25,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
+  final scaffoldState = GlobalKey<ScaffoldState>();
 
   crudMethods crudObj=new crudMethods();
 
@@ -195,7 +197,12 @@ class _LoginScreenState extends State<LoginScreen>
                       child: GestureDetector(
                         onTap: () {
                           //goto passwordresetScreen
-                          Navigator.pushNamed(context, PasswordResetScreen.id);
+                         // Navigator.pushNamed(context, PasswordResetScreen.id);
+                          var sheetController =  _scaffoldKey.currentState.showBottomSheet(
+                              (context) => BottomSheetWidget());
+                          sheetController.closed.then((value) {
+                            print(value);
+                          });
                         },
                         child: Text(
                           'Forgot Password?',
