@@ -234,7 +234,7 @@ void getCurrentUser () async{ try{
                     ],
                   ),
                   SizedBox(
-                    height: 6,
+                    height: 8,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal:18.0),
