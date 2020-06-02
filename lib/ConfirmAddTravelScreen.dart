@@ -243,7 +243,7 @@ void getCurrentUser () async{ try{
                       children: <Widget>[
                         Flexible(
                           child: addtravelDetails.selectTravelType=="TO"?
-                          Text('Select Departure time: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, fontFamily: 'Montserrat Medium'),):Text('Select Arrival time: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, fontFamily: 'Montserrat Medium'),),
+                          Text('Select Departure time: ', style: GoogleFonts.lora(fontSize: 18, fontWeight: FontWeight.w700),):Text('Select Arrival time: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, fontFamily: 'Montserrat Medium'),),
                         ),
                         DropdownButton<String>(
                           value: _journeytime,
@@ -265,10 +265,10 @@ void getCurrentUser () async{ try{
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value,
-                              style: TextStyle(
+                              style: GoogleFonts.lora(
                                 color: Colors.blueAccent,
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold
+                                fontWeight: FontWeight.w600
                               ),),
                             );
                           }).toList(),
@@ -285,10 +285,10 @@ void getCurrentUser () async{ try{
                         Flexible(
                           child: Text(
                             'Select Journey Date : ',
-                            style: TextStyle(
+                            style: GoogleFonts.lora(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
-                                fontFamily: 'Montserrat Medium'
+
                             ),
                           ),
                         ),
@@ -319,12 +319,15 @@ void getCurrentUser () async{ try{
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Flexible(
-                          child: Text(
-                            'No of person accompanying (excluding you) : ',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Montserrat Medium'
+                          child: Container(
+                            width: 200,
+                            child: Text(
+                              'No of person accompanying (excluding you) : ',
+                              style: GoogleFonts.lora(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+
+                              ),
                             ),
                           ),
                         ),
@@ -367,10 +370,10 @@ void getCurrentUser () async{ try{
                         Expanded(
                           child: Text(
                             'Phone Number : ',
-                            style: TextStyle(
+                            style: GoogleFonts.lora(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
-                                fontFamily: 'Montserrat Medium'
+
                             ),
                           ),
                         ),
