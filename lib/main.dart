@@ -1,5 +1,6 @@
 import 'package:carpool/CalenderUI.dart';
 import 'package:carpool/ConfirmAddTravelScreen.dart';
+import 'package:carpool/IntroScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/LoginScreen.dart';
 import 'package:carpool/PasswordResetScreen.dart';
@@ -19,7 +20,7 @@ class Carpool extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      initialRoute:LoginScreen.id,
+      initialRoute:IntroScreen.id,
       routes: {
         WelcomePage.id:(context) => WelcomePage(),
         LoginScreen.id:(context) => LoginScreen(),
@@ -30,8 +31,7 @@ class Carpool extends StatelessWidget {
         AddTravelTo.id:(context) => AddTravelTo(),
         ConfirmAddTravelScreen.id:(context) => ConfirmAddTravelScreen(),
         CalenderUI.id:(context) => CalenderUI(),
-
-
+        IntroScreen.id:(context) => IntroScreen(),
       },
     );
   }
