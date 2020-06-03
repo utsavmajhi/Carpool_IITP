@@ -1,5 +1,5 @@
 import 'package:carpool/HomeScreen.dart';
-import 'package:carpool/PasswordResetScreen.dart';
+import 'package:carpool/ForgetPasswordSheet.dart';
 import 'package:carpool/RegistrationScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -73,6 +73,8 @@ class _LoginScreenState extends State<LoginScreen>
     }
 
   }
+
+  Widget buildbottomSheet;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -198,11 +200,14 @@ class _LoginScreenState extends State<LoginScreen>
                         onTap: () {
                           //goto passwordresetScreen
                          // Navigator.pushNamed(context, PasswordResetScreen.id);
-                          var sheetController =  _scaffoldKey.currentState.showBottomSheet(
+                        /*  var sheetController =  _scaffoldKey.currentState.showBottomSheet(
                               (context) => BottomSheetWidget());
                           sheetController.closed.then((value) {
                             print(value);
-                          });
+                          });*/
+
+                          showModalBottomSheet(context: context,builder: (context) => BottomSheetWidget());
+
                         },
                         child: Text(
                           'Forgot Password?',
