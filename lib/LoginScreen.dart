@@ -250,7 +250,7 @@ class _LoginScreenState extends State<LoginScreen>
                                             title: "Send Reset Link",
                                             colour: Color(0xFF3F6AFE),
                                             onPressed: (){
-                                              setState(() {
+                                              setState(()async{
                                                 if(resetemail.text.isEmpty||(!resetemail.text.contains("@iitp"))){
                                                   _showSnackBar(
                                                     'Please enter your Registered Institute Id',
@@ -259,7 +259,23 @@ class _LoginScreenState extends State<LoginScreen>
                                                 }
                                                 else{
                                                   _validate="notempty";
-                                                  //checks completed
+                                                  //checks completed and passed
+                                                  //backend starts
+                                                  String check=await firebasepasswordreset(resetemail.text,_auth);
+                                                  if(check=="ResetLinkSent")
+                                                    {
+                                                      _showSnackBar(
+                                                          'Password Reset link has been sent to ${resetemail.text}',
+                                                          Colors.green);
+                                                      Navigator.pop(context);
+                                                    }else
+                                                      {
+                                                        _showSnackBar(check,
+                                                            Colors.red[600]);
+                                                        Navigator.pop(context);
+                                                      }
+
+
                                                 }
 
 
@@ -442,6 +458,23 @@ class MyClipper extends CustomClipper<Path> {
     return false;
   }
 }
+//firebae password reset
+Future<String> firebasepasswordreset(@required String email,FirebaseAuth _auth) async{
+  try{
+    await _auth.sendPasswordResetEmail(email: email);
+    print("password reset link has been sent to: "+email);
+    return "ResetLinkSent";
+  }
+  catch(e)
+  {
+    return e.message;
+
+  }
+
+
+}
+
+
 
 //shared preferences
 Future<String> setsharedprefs(@required String username,@required String phone,@required String instiemail,@required String altemail,@required String uid) async
