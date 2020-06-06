@@ -54,7 +54,7 @@ class DecoratedTextField extends StatelessWidget {
       ),
       child: TextField(
         decoration:
-        InputDecoration.collapsed(hintText: 'Enter your reference number'),
+        InputDecoration.collapsed(hintText: 'Registered Institute Email'),
       ),
     );
   }

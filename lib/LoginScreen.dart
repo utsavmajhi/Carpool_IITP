@@ -33,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen>
   bool showSpinner = false;
   final _auth = FirebaseAuth.instance;
   String email;
+  final resetemail = TextEditingController();
+  String _validate;
   String password;
   DocumentSnapshot userdetails;
   bool _obscureText = true;
@@ -206,7 +208,73 @@ class _LoginScreenState extends State<LoginScreen>
                             print(value);
                           });*/
 
-                          showModalBottomSheet(context: context,builder: (context) => BottomSheetWidget());
+                          showModalBottomSheet<void>(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+
+                              return SingleChildScrollView(
+                                child: Container(
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding:  EdgeInsets.only(
+                                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: TextFormField(
+                                              controller: resetemail,
+                                              textAlign: TextAlign.start,
+                                              decoration: InputDecoration(
+                                                contentPadding: EdgeInsets.only(
+                                                    left: 15, bottom: 11, top: 11, right: 15),
+                                                labelText: 'Enter your Registered Institute ID',
+                                                prefixIcon: Icon(Icons.email),
+                                                labelStyle: TextStyle(
+                                                  color: Color(0xFFB2BCC8),
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 17,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:18.0,right: 18,top: 0,bottom: 10),
+                                          child: RoundedButton(
+                                            title: "Send Reset Link",
+                                            colour: Color(0xFF3F6AFE),
+                                            onPressed: (){
+                                              setState(() {
+                                                if(resetemail.text.isEmpty||(!resetemail.text.contains("@iitp"))){
+                                                  _showSnackBar(
+                                                    'Please enter your Registered Institute Id',
+                                                    Colors.red[600]);
+                                                  Navigator.pop(context);
+                                                }
+                                                else{
+                                                  _validate="notempty";
+                                                  //checks completed
+                                                }
+
+
+                                              });
+
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
 
                         },
                         child: Text(
