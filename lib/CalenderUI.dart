@@ -196,14 +196,17 @@ class _HomePageState extends State<CalenderUI> {
                                     Row(
                                       children: <Widget>[
                                         Icon(Icons.person_pin,color: event.description=="TO"?Colors.black:Colors.white),
-                                        Text(
-                                          event.creatorname,
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                            color: event.description=="TO"?Colors.black:Colors.white,
-                                          ),
+                                        Container(
+                                          width: 100,
+                                          child: Text(
+                                            event.creatorname,
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w700,
+                                              color: event.description=="TO"?Colors.black:Colors.white,
+                                            ),
 
+                                          ),
                                         ),
                                       ],
                                     ),

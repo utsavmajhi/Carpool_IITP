@@ -15,7 +15,6 @@ import 'package:carpool/bottomsheet_widget.dart';
 
 
 FirebaseUser loggedInUser;
-final _firestore=Firestore.instance;
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
 
@@ -477,7 +476,7 @@ Future<String> firebasepasswordreset(@required String email,FirebaseAuth _auth) 
 
 
 //shared preferences
-Future<String> setsharedprefs(@required String username,@required String phone,@required String instiemail,@required String altemail,@required String uid) async
+Future<String> setsharedprefs(String username,String phone,String instiemail,String altemail,String uid) async
 {
   SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
   await sharedPreferences.setString('username', username);
