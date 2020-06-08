@@ -11,6 +11,7 @@ import 'package:carpool/constants.dart';
 import 'package:carpool/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'PassArguments/edittraveluid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -23,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String user_name="User";
+  String uid="";
   final _auth = FirebaseAuth.instance;
   @override
   void initState() {
@@ -35,10 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
   {
     SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
     String username=sharedPreferences.getString('username');
+    String useruid=sharedPreferences.getString('UID');
     print(username);
     setState(() {
       if(user_name!=null){
         user_name= username;
+        uid=useruid;
       }
 
       });
@@ -162,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             InkWell(
                               onTap: (){
-                                Navigator.pushNamed(context, EditTravelScreen.id);
+                                Navigator.pushNamed(context, EditTravelScreen.id,arguments:EditTravelUid(uid: uid) );
                               },
                               child: Card(
                                 shape: RoundedRectangleBorder(
@@ -173,7 +177,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    SvgPicture.asset('images/pencil.svg',height: 100,),
+                                    Hero(tag: "Edit Travel Plan",
+                                        child: SvgPicture.asset('images/pencil.svg',height: 100,)),
                                     SizedBox(
                                       height: 20 ,
                                     ),

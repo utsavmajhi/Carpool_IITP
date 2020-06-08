@@ -16,6 +16,7 @@ import 'package:carpool/PassArguments/AddtravelDetails.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'PassArguments/editdetailsmodel.dart';
+import 'PassArguments/edittraveluid.dart';
 
 
 final _firestore=Firestore.instance;
@@ -32,7 +33,7 @@ class _EditTravelScreenState extends State<EditTravelScreen> {
   @override
   void initState() {
     super.initState();
-    getvaluesfromshared();
+    //getvaluesfromshared();
   }
   Future<String> getvaluesfromshared() async
   {
@@ -44,6 +45,7 @@ class _EditTravelScreenState extends State<EditTravelScreen> {
   @override
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;
+    EditTravelUid editTravelUid=ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -51,7 +53,7 @@ class _EditTravelScreenState extends State<EditTravelScreen> {
       ),
       extendBodyBehindAppBar: true,
       body: StreamBuilder<QuerySnapshot>(
-        stream: _firestore.collection("events").where('creatoruid',isEqualTo:_userUID).snapshots(),
+        stream: _firestore.collection("events").where('creatoruid',isEqualTo:editTravelUid.uid).snapshots(),
         builder: (context,snapshot){
           if(!snapshot.hasData)
             {
