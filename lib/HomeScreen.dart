@@ -32,7 +32,21 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
    getvaluesfromshared();
   }
+  //snackbar initialises
+  GlobalKey<ScaffoldState> _scaffoldKey= new GlobalKey<ScaffoldState>();
+  _showSnackBar(@required String message, @required Color colors) {
+    if(_scaffoldKey!=null)
+    {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          backgroundColor: colors,
+          content: new Text(message),
+          duration: new Duration(seconds: 4),
+        ),
+      );
+    }
 
+  }
   void getvaluesfromshared() async
   {
     SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
@@ -55,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       extendBodyBehindAppBar: true,
         body: Stack(
           alignment: Alignment.topRight,
@@ -233,29 +248,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              elevation: 4,
-                              child: Column(
+                            InkWell(
+                              onTap: (){
+                                _showSnackBar("Coming Soon! Stay tuned",Colors.blue);
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                elevation: 4,
+                                child: Column(
 
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  SvgPicture.asset('images/taxi.svg',height: 110,),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Cab Drivers',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat Regular',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color.fromRGBO(63, 63, 63, 1)
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    SvgPicture.asset('images/taxi.svg',height: 110,),
+                                    SizedBox(
+                                      height: 10,
                                     ),
-                                  )
-                                ],
+                                    Text(
+                                      'Cab Drivers',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat Regular',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color.fromRGBO(63, 63, 63, 1)
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
 

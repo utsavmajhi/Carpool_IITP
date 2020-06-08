@@ -53,7 +53,7 @@ class _EditTravelScreenState extends State<EditTravelScreen> {
       ),
       extendBodyBehindAppBar: true,
       body: StreamBuilder<QuerySnapshot>(
-        stream: _firestore.collection("events").where('creatoruid',isEqualTo:editTravelUid.uid).snapshots(),
+        stream: _firestore.collection("events").where('creatoruid',isEqualTo:editTravelUid.uid).orderBy('event_date').snapshots(),
         builder: (context,snapshot){
           if(!snapshot.hasData)
             {

@@ -15,6 +15,9 @@ import 'package:carpool/PassArguments/AddtravelDetails.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'PassArguments/editdetailsmodel.dart';
+import 'roundedbuttonsmall.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 
 String _username="default";
 final _firestore=Firestore.instance;
@@ -428,75 +431,136 @@ class _EditFieldsDetailsScreenState extends State<EditFieldsDetailsScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom:18.0),
-                    child: RoundedButton(title: "Update",colour:Color(0xFF3F6AFE),onPressed: (){
-                      setState(() {
-                        showSpinner=true;
-                      });
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RoundedButtonSmall(title: "Update",colour:Color(0xFF3F6AFE),onPressed: (){
+                          setState(() {
+                            showSpinner=true;
+                          });
 
-                      String _newtypeofj;
-                      String uid=loggedInUser.uid;
-                      String _modeofj;
-                      if(_placeto.contains("Airport")||_placefrom.contains("Airport")){_modeofj="Flight";}else{_modeofj="Railways";}
-                      var parsedDate = DateTime.parse('2020-01-01 $_journeytime:00.000');
-                      String check=checks(_placefrom, _placeto, _dateTime.toString(), _journeytime, _phonenumber, _modeofj);
-                      if(check=="Checks passed")
-                      {
+                          String _newtypeofj;
+                          String uid=loggedInUser.uid;
+                          String _modeofj;
+                          if(_placeto.contains("Airport")||_placefrom.contains("Airport")){_modeofj="Flight";}else{_modeofj="Railways";}
+                          var parsedDate = DateTime.parse('2020-01-01 $_journeytime:00.000');
+                          String check=checks(_placefrom, _placeto, _dateTime.toString(), _journeytime, _phonenumber, _modeofj);
+                          if(check=="Checks passed")
+                          {
 
-                        if(_placefrom=="IIT Patna")
-                        {
-                          _newtypeofj="TO";
-                        }
-                        else
-                        {
-                          _newtypeofj="FROM";
-                        }
+                            if(_placefrom=="IIT Patna")
+                            {
+                              _newtypeofj="TO";
+                            }
+                            else
+                            {
+                              _newtypeofj="FROM";
+                            }
 
-                        try{
-                          _firestore.collection('events').document(_eventrefrenceid).updateData({
-                            'description':_newtypeofj,
-                            'event_date': _dateTime,
-                            'title': '_dateTime',
-                            'placefrom' : _placefrom,
-                            'placeto': _placeto,
-                            'modeofj': _modeofj,
-                            'timeofj': parsedDate,
-                            'phone':_phonenumber,
-                            'nofpeople':_nofpersonsaccom,
-                            'creatoruid':uid,
-                            'creatorname': _username,
-                          }).whenComplete((){
-                            _showSnackBar("Successfully Updated", Colors.green);
-                            Future.delayed(const Duration(milliseconds: 1000), () {
-                              // Here you can write your code
-                              setState(() {
-                                // Here you can write your code for open new view
-                                Navigator.pushReplacementNamed(context, HomeScreen.id);
+                            try{
+                              _firestore.collection('events').document(_eventrefrenceid).updateData({
+                                'description':_newtypeofj,
+                                'event_date': _dateTime,
+                                'title': '_dateTime',
+                                'placefrom' : _placefrom,
+                                'placeto': _placeto,
+                                'modeofj': _modeofj,
+                                'timeofj': parsedDate,
+                                'phone':_phonenumber,
+                                'nofpeople':_nofpersonsaccom,
+                                'creatoruid':uid,
+                                'creatorname': _username,
+                              }).whenComplete((){
+                                _showSnackBar("Successfully Updated", Colors.green);
+                                Future.delayed(const Duration(milliseconds: 1000), () {
+                                  // Here you can write your code
+                                  setState(() {
+                                    // Here you can write your code for open new view
+                                    Navigator.pushReplacementNamed(context, HomeScreen.id);
+                                  });
+
+                                });
                               });
+                            }
+                            catch(e){
+                              setState(() {
+                                showSpinner=false;
+                              });
+                              _showSnackBar(e.message, Colors.red[700]);
+                              print(e+"in EditFieldsDetailsScreen DATABASE ERROR");
+                            }
+
+
+                          }else//error
+                              {
+                            setState(() {
+                              showSpinner=false;
 
                             });
-                          });
-                        }
-                        catch(e){
-                          setState(() {
-                            showSpinner=false;
-                          });
-                          _showSnackBar(e.message, Colors.red[700]);
-                          print(e+"in EditFieldsDetailsScreen DATABASE ERROR");
-                        }
-
-
-                      }else//error
-                          {
-                        setState(() {
-                          showSpinner=false;
-
-                        });
-                        _showSnackBar(check, Colors.red[700]);
-                      }
+                            _showSnackBar(check, Colors.red[700]);
+                          }
 
 
 
-                    },)
+                        },),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        RoundedButtonSmall(title:"Delete",colour: Colors.red[600],onPressed: (){
+                              //show alert dialog
+                          Alert(
+                            context: context,
+                            type: AlertType.warning,
+                            title: "Warning",
+                            desc: "Your entry will be deleted permanently",
+                            buttons: [
+                              DialogButton(
+                                child: Text(
+                                  "Do it!",
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                                onPressed: () {
+                                    showSpinner=true;
+                                    Navigator.pop(context);
+                                  try{
+
+                                    _firestore.collection('events').document(_eventrefrenceid).delete().whenComplete(() {
+                                      _showSnackBar("Successfully Deleted", Colors.green);
+                                      Future.delayed(const Duration(milliseconds: 1500), () {
+                                        // Here you can write your code
+                                        setState(() {
+                                          showSpinner=false;
+                                          // Here you can write your code for open new view
+                                          Navigator.pushReplacementNamed(context, HomeScreen.id);
+                                        });
+
+                                      });
+                                    });
+                                  }catch(e)
+                                  {
+                                      setState(() {
+                                        showSpinner=false;
+                                      });
+                                      _showSnackBar(e.message+"Please!try again", Colors.red[700]);
+                                      Navigator.pushReplacementNamed(context, HomeScreen.id);
+                                  }
+
+                                },
+                                color: Colors.red[600],
+                              ),
+                              DialogButton(
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                                onPressed: () => Navigator.pop(context),
+                                color: Colors.blueAccent,
+                              )
+                            ],
+                          ).show();
+                        },)
+                      ],
+                    )
                   ),
 
                 ],
