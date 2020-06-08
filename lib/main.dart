@@ -10,6 +10,8 @@ import 'package:carpool/HomeScreen.dart';
 import 'package:carpool/addtravelwaypoint.dart';
 import 'package:carpool/addtravelTo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:carpool/EditTravelScreen.dart';
+import 'package:carpool/EditFieldsDetailsScreen.dart';
 final _auth = FirebaseAuth.instance;
 void main() {
   runApp(Carpool());
@@ -32,6 +34,8 @@ class Carpool extends StatelessWidget {
         ConfirmAddTravelScreen.id:(context) => ConfirmAddTravelScreen(),
         CalenderUI.id:(context) => CalenderUI(),
         IntroScreen.id:(context) => IntroScreen(),
+        EditTravelScreen.id:(context) => EditTravelScreen(),
+        EditFieldsDetailsScreen.id:(context) => EditFieldsDetailsScreen(),
       },
     );
   }

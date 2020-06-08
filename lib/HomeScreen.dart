@@ -1,4 +1,5 @@
 import 'package:carpool/CalenderUI.dart';
+import 'package:carpool/EditTravelScreen.dart';
 import 'package:carpool/LoginScreen.dart';
 import 'package:carpool/addtravelwaypoint.dart';
 import 'package:flutter/material.dart';
@@ -159,30 +160,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              elevation: 4,
-                              child: Column(
+                            InkWell(
+                              onTap: (){
+                                Navigator.pushNamed(context, EditTravelScreen.id);
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                elevation: 4,
+                                child: Column(
 
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  SvgPicture.asset('images/pencil.svg',height: 100,),
-                                  SizedBox(
-                                    height: 20 ,
-                                  ),
-                                  Text(
-                                    'Edit Journey',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat Regular',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color.fromRGBO(63, 63, 63, 1)
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    SvgPicture.asset('images/pencil.svg',height: 100,),
+                                    SizedBox(
+                                      height: 20 ,
                                     ),
-                                  ),
+                                    Text(
+                                      'Edit Journey',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat Regular',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color.fromRGBO(63, 63, 63, 1)
+                                      ),
+                                    ),
 
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
 

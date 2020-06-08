@@ -14,45 +14,54 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:carpool/PassArguments/AddtravelDetails.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'PassArguments/editdetailsmodel.dart';
 
 String _username="default";
 final _firestore=Firestore.instance;
 FirebaseUser loggedInUser;
-
-class ConfirmAddTravelScreen extends StatefulWidget {
-  static String id='ConfirmAddTravel_screen';
-
+class EditFieldsDetailsScreen extends StatefulWidget {
+  static String id='Editfieldsdetail_Screen';
   @override
-  _ConfirmAddTravelScreenState createState() => _ConfirmAddTravelScreenState();
+  _EditFieldsDetailsScreenState createState() => _EditFieldsDetailsScreenState();
 }
 
-class _ConfirmAddTravelScreenState extends State<ConfirmAddTravelScreen> {
-
+class _EditFieldsDetailsScreenState extends State<EditFieldsDetailsScreen> {
+  final _auth=FirebaseAuth.instance;
+  GlobalKey<ScaffoldState> _scaffoldKey= new GlobalKey<ScaffoldState>();
+  bool showSpinner=false;
+  String _phonenumber;
+  TextEditingController _phonecontroller;
+  String _nofpersonsaccom;
+  String _typeofjourney;
+  String _eventrefrenceid;
+  String _placeto="IIT Patna";
+  String _placefrom="Patna Airport";
+  DateTime _dateTime;
+  String _journeytime;
 @override
-  void initState(){
+  void initState() {
+    // TODO: implement initState
     super.initState();
     getCurrentUser();
     getvaluesfromshared();
-    _phonecontroller = TextEditingController(text:_phonenumber);
+    Future.delayed(Duration.zero,(){
+      EditdetailsModel editdetailsModel=ModalRoute.of(context).settings.arguments;
+      setState(() {
+        _journeytime = changetimeformat(editdetailsModel.documentSnapshot['timeofj']);
+        Timestamp timestamp=editdetailsModel.documentSnapshot['event_date'];
+        _dateTime=timestamp.toDate();
+        _nofpersonsaccom=editdetailsModel.documentSnapshot['nofpeople'].toString();
+        _phonecontroller=TextEditingController(text:editdetailsModel.documentSnapshot['phone']);
+        _phonenumber=editdetailsModel.documentSnapshot['phone'];
+        _typeofjourney=editdetailsModel.documentSnapshot['description'];
+        _placefrom=editdetailsModel.documentSnapshot['placefrom'];
+        _placeto=editdetailsModel.documentSnapshot['placeto'];
+        _eventrefrenceid=editdetailsModel.documentSnapshot['id'];
+      });
 
-
+    });
   }
-
-Future<bool> getvaluesfromshared() async
-{
-  SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
-  String username=sharedPreferences.getString('username');
-  _username=username;
-  String defaultphn=sharedPreferences.getString('userphone');
-  _phonenumber=defaultphn;
-  setState(() {
-    _phonecontroller = TextEditingController(text:_phonenumber);
-  });
-
-  return true;
-}
-
-void getCurrentUser () async{ try{
+  void getCurrentUser () async{ try{
     final user=await _auth.currentUser();
     if(user!=null)
     {
@@ -65,15 +74,8 @@ void getCurrentUser () async{ try{
     print(e);
   }
 
-}
-  final _auth=FirebaseAuth.instance;
-  GlobalKey<ScaffoldState> _scaffoldKey= new GlobalKey<ScaffoldState>();
-  bool showSpinner=false;
-  String _phonenumber;
-  String _journeytime = '00:00';
-  String _nofpersonsaccom='0';
-  DateTime _dateTime=DateTime.now();
-  TextEditingController _phonecontroller;
+  }
+
   //snackbar initialises
   _showSnackBar(@required String message, @required Color colors) {
     if(_scaffoldKey!=null)
@@ -89,30 +91,41 @@ void getCurrentUser () async{ try{
 
   }
 
+  Future<bool> getvaluesfromshared() async
+  {
+    SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+    String username=sharedPreferences.getString('username');
+    _username=username;
+    String defaultphn=sharedPreferences.getString('userphone');
+    _phonenumber=defaultphn;
+    setState(() {
+      _phonecontroller = TextEditingController(text:_phonenumber);
+    });
 
-
-//date picker from calendar
-  Future<Null> _selectDate(BuildContext context) async {
-   final DateTime picked=await showDatePicker(context: context, initialDate: _dateTime, firstDate: DateTime(2016), lastDate: DateTime(2222));
-   if(picked!=null && picked !=_dateTime)
-     {
-
-       setState(() {
-         _dateTime=picked;
-       });
-     }
+    return true;
   }
-
-  //String time=DateFormat('yMd').format(_dateTime);
   @override
   Widget build(BuildContext context) {
-    AddtravelDetails addtravelDetails=ModalRoute.of(context).settings.arguments;
     var size =MediaQuery.of(context).size;
+    //date picker from calendar
+    Future<Null> _selectDate(BuildContext context) async {
+      final DateTime picked=await showDatePicker(context: context, initialDate: _dateTime, firstDate: DateTime(2016), lastDate: DateTime(2222));
+      if(picked!=null && picked !=_dateTime)
+      {
+
+        setState(() {
+          _dateTime=picked;
+        });
+      }
+    }
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        actions: <Widget>[
+
+        ],
       ),
       extendBodyBehindAppBar: true,
       body: ModalProgressHUD(
@@ -146,7 +159,7 @@ void getCurrentUser () async{ try{
                                 padding: const EdgeInsets.all(8.0),
                                 child: Padding(
                                   padding: const EdgeInsets.all(5.0),
-                                  child: SvgPicture.asset('images/travel2.svg'),
+                                  child: SvgPicture.asset('images/pencil.svg'),
                                 ),
                               ),
                             )
@@ -154,7 +167,7 @@ void getCurrentUser () async{ try{
                       ),
                       Center(
                         child: Text(
-                          'Confirm Travel',
+                          'Edit Journey',
                           style: GoogleFonts.raleway(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
@@ -173,65 +186,73 @@ void getCurrentUser () async{ try{
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          CircleAvatar(
-                              radius: (38),
-                              backgroundColor: Colors.transparent,
-                              child: ClipRRect(
-                                borderRadius:BorderRadius.circular(20),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.asset("images/iitplogo.png"),
-                                ),
-                              )
-                          ),
-                          Text(
-                            'IIT Patna',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold
-                            ),
-                          )
-                        ],
-                      ),
-                      CircleAvatar(
-                          radius: (29),
-                          backgroundColor: Colors.transparent,
-                          child: ClipRRect(
-                            borderRadius:BorderRadius.circular(20),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: addtravelDetails.selectTravelType=="TO" ? Image.asset("images/right.png"): Image.asset("images/leftarrow.png") ,
-                            ),
-                          )
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          CircleAvatar(
-                              radius: (38),
-                              backgroundColor: Colors.transparent,
-                              child: ClipRRect(
-                                borderRadius:BorderRadius.circular(20),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: addtravelDetails.selectModeoftravel=="Railways" ? Image.asset("images/trainicon.png"):Image.asset("images/plane.png"),
-                                ),
-                              )
-                          ),
-                          addtravelDetails.selectTravelType=="TO"?Text(addtravelDetails.selectTo,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),):Text(addtravelDetails.selectFrom,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-
-
-
-                        ],
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('From : ', style: GoogleFonts.lora(fontSize: 18, fontWeight: FontWeight.w700),),
+                        ),
+                        DropdownButton<String>(
+                          value: _placefrom,
+                          iconSize: 10,
+                          elevation: 16,
+                          style: TextStyle(color: Colors.deepPurple),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              _placefrom=newValue;
+                            });
+                          },
+                          items: <String>['Patna Junction','Patna Airport','Danapur Junction','Patliputra Junction','Ara Junction','Rajendra Nagar Terminal','IIT Patna']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value,
+                                style: GoogleFonts.lora(
+                                    color: Colors.blueAccent,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600
+                                ),),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text('To : ', style: GoogleFonts.lora(fontSize: 18, fontWeight: FontWeight.w700),),
+                        ),
+                        DropdownButton<String>(
+                          value: _placeto,
+                          iconSize: 10,
+                          elevation: 16,
+                          style: TextStyle(color: Colors.deepPurple),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              _placeto=newValue;
+                            });
+                          },
+                          items: <String>['Patna Junction','Patna Airport','Danapur Junction','Patliputra Junction','Ara Junction','Rajendra Nagar Terminal','IIT Patna']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value,
+                                style: GoogleFonts.lora(
+                                    color: Colors.blueAccent,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600
+                                ),),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 8,
@@ -242,8 +263,7 @@ void getCurrentUser () async{ try{
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Flexible(
-                          child: addtravelDetails.selectTravelType=="TO"?
-                          Text('Select Departure time: ', style: GoogleFonts.lora(fontSize: 18, fontWeight: FontWeight.w700),):Text('Select Arrival time: ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, fontFamily: 'Montserrat Medium'),),
+                          child: Text('Select Depart/Arr time: ', style: GoogleFonts.lora(fontSize: 18, fontWeight: FontWeight.w700),),
                         ),
                         DropdownButton<String>(
                           value: _journeytime,
@@ -265,11 +285,11 @@ void getCurrentUser () async{ try{
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value,
-                              style: GoogleFonts.lora(
-                                color: Colors.blueAccent,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600
-                              ),),
+                                style: GoogleFonts.lora(
+                                    color: Colors.blueAccent,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600
+                                ),),
                             );
                           }).toList(),
                         ),
@@ -286,8 +306,8 @@ void getCurrentUser () async{ try{
                           child: Text(
                             'Select Journey Date : ',
                             style: GoogleFonts.lora(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
 
                             ),
                           ),
@@ -295,14 +315,14 @@ void getCurrentUser () async{ try{
                         Flexible(
                           child: FlatButton(
                             onPressed: (){
-                                  _selectDate(context);
+                              _selectDate(context);
                             },
                             child: Text (
-                              _dateTime==null? "Please Select" : changetimeformat(_dateTime),
+                              _dateTime==null? "Please Select" : changetimeformatv2(_dateTime),
                               style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.blueAccent,
-                                fontWeight: FontWeight.bold
+                                  fontSize: 18,
+                                  color: Colors.blueAccent,
+                                  fontWeight: FontWeight.bold
                               ),
                             ),
                           ),
@@ -324,8 +344,8 @@ void getCurrentUser () async{ try{
                             child: Text(
                               'No of person accompanying (excluding you) : ',
                               style: GoogleFonts.lora(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
 
                               ),
                             ),
@@ -371,8 +391,8 @@ void getCurrentUser () async{ try{
                           child: Text(
                             'Phone Number : ',
                             style: GoogleFonts.lora(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
 
                             ),
                           ),
@@ -384,7 +404,7 @@ void getCurrentUser () async{ try{
                               keyboardType: TextInputType.phone,
                               controller: _phonecontroller,
                               style: TextStyle(
-                                fontSize: 20
+                                  fontSize: 20
                               ),
                               textAlign: TextAlign.end,
                               onChanged: (value)
@@ -408,70 +428,75 @@ void getCurrentUser () async{ try{
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom:18.0),
-                    child: RoundedButton(title: 'Submit',colour: Color(0xFF3F6AFE),
-                      onPressed: () async{
-                          String check=checks(addtravelDetails.selectFrom,_dateTime.toString(),_journeytime,_phonenumber,addtravelDetails.selectModeoftravel);
-                          if(check=="Checks passed")
-                            {
+                    child: RoundedButton(title: "Update",colour:Color(0xFF3F6AFE),onPressed: (){
+                      setState(() {
+                        showSpinner=true;
+                      });
+
+                      String _newtypeofj;
+                      String uid=loggedInUser.uid;
+                      String _modeofj;
+                      if(_placeto.contains("Airport")||_placefrom.contains("Airport")){_modeofj="Flight";}else{_modeofj="Railways";}
+                      var parsedDate = DateTime.parse('2020-01-01 $_journeytime:00.000');
+                      String check=checks(_placefrom, _placeto, _dateTime.toString(), _journeytime, _phonenumber, _modeofj);
+                      if(check=="Checks passed")
+                      {
+
+                        if(_placefrom=="IIT Patna")
+                        {
+                          _newtypeofj="TO";
+                        }
+                        else
+                        {
+                          _newtypeofj="FROM";
+                        }
+
+                        try{
+                          _firestore.collection('events').document(_eventrefrenceid).updateData({
+                            'description':_newtypeofj,
+                            'event_date': _dateTime,
+                            'title': '_dateTime',
+                            'placefrom' : _placefrom,
+                            'placeto': _placeto,
+                            'modeofj': _modeofj,
+                            'timeofj': parsedDate,
+                            'phone':_phonenumber,
+                            'nofpeople':_nofpersonsaccom,
+                            'creatoruid':uid,
+                            'creatorname': _username,
+                          }).whenComplete((){
+                            _showSnackBar("Successfully Updated", Colors.green);
+                            Future.delayed(const Duration(milliseconds: 1000), () {
+                              // Here you can write your code
                               setState(() {
-                                showSpinner=true;
+                                // Here you can write your code for open new view
+                                Navigator.pushReplacementNamed(context, HomeScreen.id);
                               });
-                              String uid=loggedInUser.uid;
-                              try{
 
-                                String documentid=uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), 'z');
-                                var parsedDate = DateTime.parse('2020-01-01 $_journeytime:00.000');
-                               await _firestore.collection("events").document(documentid).setData({
-                                  'description':addtravelDetails.selectTravelType,
-                                  'event_date': _dateTime,
-                                  'id':documentid,
-                                  'title': '_dateTime',
-                                  'placefrom' : addtravelDetails.selectFrom,
-                                  'placeto': addtravelDetails.selectTo,
-                                  'modeofj': addtravelDetails.selectModeoftravel,
-                                  'timeofj': parsedDate,
-                                  'phone':_phonenumber,
-                                  'nofpeople':_nofpersonsaccom,
-                                  'creatoruid':uid,
-                                  'creatorname': _username,
-                                }).whenComplete(() {
-                                  _showSnackBar("Successfully Added", Colors.green);
-
-                                  Future.delayed(const Duration(milliseconds: 2000), () {
-                                      // Here you can write your code
-                                    setState(() {
-                                      // Here you can write your code for open new view
-                                      Navigator.pushReplacementNamed(context, HomeScreen.id);
-                                    });
-
-                                  });
-                                }).then((value) => Firestore.instance.collection('events').orderBy('timeofj'));
-                                setState(() {
-                                  showSpinner=false;
-                                });
-                              }
-                              catch(e)
-                                  {
-                                    setState(() {
-                                      showSpinner=false;
-                                    });
-                                    _showSnackBar(e.message, Colors.red[700]);
-                                    print(e+"in ConfirmAddtravelScreen DATABASE ERROR");
-
-                                  }
-
-                            }
-                          else//error
-                            {
-                              setState(() {
-                                showSpinner=false;
-
-                              });
-                              _showSnackBar(check, Colors.red[700]);
-                            }
+                            });
+                          });
+                        }
+                        catch(e){
+                          setState(() {
+                            showSpinner=false;
+                          });
+                          _showSnackBar(e.message, Colors.red[700]);
+                          print(e+"in EditFieldsDetailsScreen DATABASE ERROR");
+                        }
 
 
-                    },),
+                      }else//error
+                          {
+                        setState(() {
+                          showSpinner=false;
+
+                        });
+                        _showSnackBar(check, Colors.red[700]);
+                      }
+
+
+
+                    },)
                   ),
 
                 ],
@@ -483,8 +508,6 @@ void getCurrentUser () async{ try{
     );
   }
 }
-
-
 class MyClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
@@ -503,37 +526,55 @@ class MyClipper extends CustomClipper<Path> {
 
 }
 
-//for formatting date
-changetimeformat(@required DateTime datetimepicked)
+changetimeformat(@required Timestamp datetimepicked)
+{
+  String formattedDate = DateFormat('HH:mm').format(datetimepicked.toDate());
+
+  return formattedDate;
+
+}
+
+changetimeformatv2(@required DateTime datetimepicked)
 {
   String formattedDate = DateFormat('dd-MM-yyyy').format(datetimepicked);
 
   return formattedDate;
-  
-}
 
-String checks(@required String placefrom,@required String dateoj, @required String timeofj,@required String phn,@required String modeofj)
-{
-  if(phn.isEmpty||phn==null)
+}
+String checks(@required String placefrom,@required String placeto,@required String dateoj, @required String timeofj,@required String phn,@required String modeofj)
+{if(placefrom==placeto){
+  return("Both 'FROM' places and 'TO' places can't be same");
+}
+else{
+  if(placefrom!="IIT Patna"&&placeto!="IIT Patna")
     {
-      return "All Fields are Mandatory";
+      return("Path of Journey should be between IIT Patna and any other Junction/airport");
     }
   else
     {
-      if(modeofj.isEmpty||modeofj==null)
+      if(phn.isEmpty||phn==null)
+      {
+        return "All Fields are Mandatory";
+      }
+      else
+      {
+        if(modeofj.isEmpty||modeofj==null)
         {
           return "Error ! Retry from start";
         }
-      else
+        else
         {
           if(dateoj.isEmpty||dateoj==null)
-            {
-              return "Please fill all the details";
-            }
+          {
+            return "Please fill all the details";
+          }
           else
-            {
-              return "Checks passed";
-            }
+          {
+            return "Checks passed";
+          }
         }
+      }
     }
+}
+
 }

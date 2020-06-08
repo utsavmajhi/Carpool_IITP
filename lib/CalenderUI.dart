@@ -45,9 +45,6 @@ class _HomePageState extends State<CalenderUI> {
     return ref.snapshots().map((list) =>
         list.documents.map((doc) => eventDBS.fromDS(doc.documentID, doc.data)).toList());
   }
-
-  OrderBy orderBy=new OrderBy('timeofj');
-  List<OrderBy> order;
   @override
   Widget build(BuildContext context) {
     var size =MediaQuery.of(context).size;
