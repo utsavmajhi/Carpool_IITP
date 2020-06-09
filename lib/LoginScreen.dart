@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen>
   void getCurrentUser () async{
     try{
       final user=await _auth.currentUser();
-      if(user!=null)
+      if(user!=null&&(user.isEmailVerified==true))
       {
         loggedInUser=user;
         Navigator.pushReplacementNamed(context, HomeScreen.id);

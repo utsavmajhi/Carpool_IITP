@@ -351,7 +351,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> with TickerProv
                           ),
                           GestureDetector(
                             onTap: (){
-                              Navigator.pushNamed(context, LoginScreen.id);
+                              Navigator.pushReplacementNamed(context, LoginScreen.id);
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(left: 5),
