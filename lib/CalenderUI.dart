@@ -188,7 +188,7 @@ class _HomePageState extends State<CalenderUI> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
@@ -222,6 +222,7 @@ class _HomePageState extends State<CalenderUI> {
                                       ],
                                     ),
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           '#  people:',
@@ -255,7 +256,7 @@ class _HomePageState extends State<CalenderUI> {
                                     Row(
                                       children: <Widget>[
                                         event.description=="TO"?Icon(Icons.school,color: event.description=="TO"?Colors.black:Colors.white):event.modeofj=="Railways"?Icon(Icons.train,color: event.description=="TO"?Colors.black:Colors.white):Icon(Icons.flight,color: event.description=="TO"?Colors.black:Colors.white),
-                                        Text(event.placefrom, style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700,color: event.description=="TO"?Colors.black:Colors.white),),
+                                        Text(event.placefrom, style: TextStyle(fontSize: 14,fontWeight: FontWeight.w700,color: event.description=="TO"?Colors.black:Colors.white),),
                                       ],
                                     ),
                                     Text(
@@ -272,7 +273,7 @@ class _HomePageState extends State<CalenderUI> {
                                         Text(
                                           event.placeto,
                                           style: TextStyle(
-                                              fontSize: 18,fontWeight: FontWeight.w700,
+                                              fontSize: 14,fontWeight: FontWeight.w700,
                                             color: event.description=="TO"?Colors.black:Colors.white,
                                           ),
                                         ),

@@ -62,6 +62,7 @@ class _EditTravelScreenState extends State<EditTravelScreen> {
                 );
             }
         return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             ClipPath(
               clipper: MyClipper(),
@@ -133,6 +134,7 @@ class _EditTravelScreenState extends State<EditTravelScreen> {
             Expanded(
               child: MediaQuery.removePadding(
                     removeTop: true,
+                removeBottom: true,
                 context: context,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

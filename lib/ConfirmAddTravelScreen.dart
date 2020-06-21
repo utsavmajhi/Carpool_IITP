@@ -509,7 +509,7 @@ changetimeformat(@required DateTime datetimepicked)
   String formattedDate = DateFormat('dd-MM-yyyy').format(datetimepicked);
 
   return formattedDate;
-  
+
 }
 
 String checks(@required String placefrom,@required String dateoj, @required String timeofj,@required String phn,@required String modeofj)

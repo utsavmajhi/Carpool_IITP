@@ -208,8 +208,8 @@ class _LoginScreenState extends State<LoginScreen>
                           });*/
 
                           showModalBottomSheet<void>(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
                             context: context,
                             isScrollControlled: true,
                             builder: (BuildContext context) {

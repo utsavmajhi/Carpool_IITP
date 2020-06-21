@@ -35,16 +35,16 @@ class _HomeScreenState extends State<HomeScreen> {
   //snackbar initialises
   GlobalKey<ScaffoldState> _scaffoldKey= new GlobalKey<ScaffoldState>();
   _showSnackBar(@required String message, @required Color colors) {
-    if(_scaffoldKey!=null)
-    {
-      _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          backgroundColor: colors,
-          content: new Text(message),
-          duration: new Duration(seconds: 4),
-        ),
-      );
-    }
+      if(_scaffoldKey!=null)
+      {
+        _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            backgroundColor: colors,
+            content: new Text(message),
+            duration: new Duration(seconds: 4),
+          ),
+        );
+      }
 
   }
   void getvaluesfromshared() async
