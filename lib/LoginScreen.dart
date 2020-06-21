@@ -106,11 +106,14 @@ class _LoginScreenState extends State<LoginScreen>
                         child: CircleAvatar(
                             radius: (38),
                             backgroundColor: Colors.white,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset("images/appicon.png"),
+                            child: Hero(
+                              tag: 'Splashicon',
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.asset("images/appicon.png"),
+                                ),
                               ),
                             )),
                       ),

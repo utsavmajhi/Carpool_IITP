@@ -25,15 +25,20 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      backgroundColor: Colors.blueAccent,
       body: new Center(
-        child: new Container(
+        child: Container(
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Image.asset(
-                'images/appicon.png',
-                width: 200,
-                height: 200,
+              Hero(
+                tag:'Splashicon',
+                child: CircleAvatar(
+                  radius:100,
+                  backgroundImage: AssetImage(
+                    'images/splashicon.png',
+                  ),
+                ),
               ),
               new Container(
                 padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
