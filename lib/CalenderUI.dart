@@ -127,7 +127,7 @@ class _HomePageState extends State<CalenderUI> {
                     children: <Widget>[
                       TableCalendar(
                         events: _events,
-                        initialCalendarFormat: CalendarFormat.week,
+                        initialCalendarFormat: CalendarFormat.month,
                         calendarStyle: CalendarStyle(
                             canEventMarkersOverflow: true,
                             todayColor: Colors.orange,

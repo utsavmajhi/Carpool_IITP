@@ -207,7 +207,7 @@ class _EditFieldsDetailsScreenState extends State<EditFieldsDetailsScreen> {
                               _placefrom=newValue;
                             });
                           },
-                          items: <String>['Patna Junction','Patna Airport','Danapur Junction','Patliputra Junction','Ara Junction','Rajendra Nagar Terminal','IIT Patna']
+                          items: <String>['Patna Junction','Patna Airport','Danapur Junction','Patliputra Junction','Ara Junction','Rajendranagar Terminal','IIT Patna']
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -241,7 +241,7 @@ class _EditFieldsDetailsScreenState extends State<EditFieldsDetailsScreen> {
                               _placeto=newValue;
                             });
                           },
-                          items: <String>['Patna Junction','Patna Airport','Danapur Junction','Patliputra Junction','Ara Junction','Rajendra Nagar Terminal','IIT Patna']
+                          items: <String>['Patna Junction','Patna Airport','Danapur Junction','Patliputra Junction','Ara Junction','Rajendranagar Terminal','IIT Patna']
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,

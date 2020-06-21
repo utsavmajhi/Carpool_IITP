@@ -13,7 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'PassArguments/edittraveluid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               },
                               child: Padding(
-                                padding: const EdgeInsets.all(2.0),
+                                padding: const EdgeInsets.all(0.0),
                                 child: Card(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -293,10 +293,36 @@ class _HomeScreenState extends State<HomeScreen> {
               child: IconButton(
                 alignment: Alignment.topRight,
                 onPressed: () async{
-                  _signOut();//signout from firebase
-                  SharedPreferences preferences = await SharedPreferences.getInstance();
-                  await preferences.clear();
-                  Navigator.pushReplacementNamed(context, LoginScreen.id);
+
+                  Alert(
+                    context: context,
+                    type: AlertType.warning,
+                    title: "Warning",
+                    desc: "You will be Logged Out",
+                    buttons: [
+                      DialogButton(
+                        child: Text(
+                          "Log Out!",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        onPressed: ()async {
+                          _signOut();//signout from firebase
+                          SharedPreferences preferences = await SharedPreferences.getInstance();
+                          await preferences.clear();
+                          Navigator.pushReplacementNamed(context, LoginScreen.id);
+                        },
+                        color: Colors.red[600],
+                      ),
+                      DialogButton(
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                        color: Colors.blueAccent,
+                      )
+                    ],
+                  ).show();
                 },
                 icon:Icon(Icons.exit_to_app,size: 35,color: Colors.white,),
               ),
