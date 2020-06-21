@@ -12,6 +12,7 @@ import 'package:carpool/addtravelTo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:carpool/EditTravelScreen.dart';
 import 'package:carpool/EditFieldsDetailsScreen.dart';
+import 'package:carpool/SplashScreen.dart';
 final _auth = FirebaseAuth.instance;
 void main() {
   runApp(Carpool());
@@ -22,7 +23,7 @@ class Carpool extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      initialRoute:IntroScreen.id,
+      initialRoute:SplashScreen.id,
       routes: {
         WelcomePage.id:(context) => WelcomePage(),
         LoginScreen.id:(context) => LoginScreen(),
@@ -36,6 +37,7 @@ class Carpool extends StatelessWidget {
         IntroScreen.id:(context) => IntroScreen(),
         EditTravelScreen.id:(context) => EditTravelScreen(),
         EditFieldsDetailsScreen.id:(context) => EditFieldsDetailsScreen(),
+        SplashScreen.id:(context) => SplashScreen(),
       },
     );
   }

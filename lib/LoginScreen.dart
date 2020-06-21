@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen>
                               borderRadius: BorderRadius.circular(20),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Image.asset("images/carlogo.png"),
+                                child: Image.asset("images/appicon.png"),
                               ),
                             )),
                       ),

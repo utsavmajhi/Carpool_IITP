@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_helpers/firebase_helpers.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'Dialog.dart';
 class CalenderUI extends StatefulWidget {
   static String id='calender_screen';
   @override
@@ -175,135 +177,151 @@ class _HomePageState extends State<CalenderUI> {
                       ),
                       ..._selectedEvents.map((event) => Padding(
                         padding: const EdgeInsets.all(0.0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
+                        child: GestureDetector(
+                          onTap: ()async{
+                            //
+                            final action =
+                                await Dialogs.yesAbortDialog(context, 'Confirm', 'Do you want to call ${event.phn} ?');
+                            if (action == DialogAction.yes) {
+                              setState((){
+                                launch(('tel://${event.phn}'));
+                              });
+                            } else {
+                              setState((){
+                                print("No");
+                              });
+                            }
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
 
-                          color: event.description=="TO"? Colors.orange[300]:Colors.blueAccent,
-                          elevation: 4,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Icon(Icons.person_pin,color: event.description=="TO"?Colors.black:Colors.white),
-                                        Container(
-                                          width: 100,
-                                          child: Text(
-                                            event.creatorname,
+                            color: event.description=="TO"? Colors.orange[300]:Colors.blueAccent,
+                            elevation: 4,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(Icons.person_pin,color: event.description=="TO"?Colors.black:Colors.white),
+                                          Container(
+                                            width: 100,
+                                            child: Text(
+                                              event.creatorname,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                                color: event.description=="TO"?Colors.black:Colors.white,
+                                              ),
+
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(Icons.call,color: event.description=="TO"?Colors.black:Colors.white),
+                                          Text(
+                                              event.phn,
                                             style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w700,
+
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
                                               color: event.description=="TO"?Colors.black:Colors.white,
                                             ),
-
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Icon(Icons.call,color: event.description=="TO"?Colors.black:Colors.white),
-                                        Text(
-                                            event.phn,
-                                          style: TextStyle(
-
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16,
-                                            color: event.description=="TO"?Colors.black:Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          '#  people:',
-                                          style: TextStyle(
-
-                                              fontWeight: FontWeight.w700,
-                                            color: event.description=="TO"?Colors.black:Colors.white,
-
-                                          ),
-                                        ),
-                                        Text(
-                                          event.nofpeople,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                            color: event.description=="TO"?Colors.black:Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Text('FROM', style: TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline,color: event.description=="TO"?Colors.black:Colors.white,),),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        event.description=="TO"?Icon(Icons.school,color: event.description=="TO"?Colors.black:Colors.white):event.modeofj=="Railways"?Icon(Icons.train,color: event.description=="TO"?Colors.black:Colors.white):Icon(Icons.flight,color: event.description=="TO"?Colors.black:Colors.white),
-                                        Text(event.placefrom, style: TextStyle(fontSize: 14,fontWeight: FontWeight.w700,color: event.description=="TO"?Colors.black:Colors.white),),
-                                      ],
-                                    ),
-                                    Text(
-                                      'TO',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: event.description=="TO"?Colors.black:Colors.white,
-                                        decoration: TextDecoration.underline,
+                                        ],
                                       ),
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        event.description=="TO"?event.modeofj=="Railways"?Icon(Icons.train,color: event.description=="TO"?Colors.black:Colors.white):Icon(Icons.flight,color: event.description=="TO"?Colors.black:Colors.white):Icon(Icons.school,color: event.description=="TO"?Colors.black:Colors.white),
-                                        Text(
-                                          event.placeto,
-                                          style: TextStyle(
-                                              fontSize: 14,fontWeight: FontWeight.w700,
-                                            color: event.description=="TO"?Colors.black:Colors.white,
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            '#  people:',
+                                            style: TextStyle(
+
+                                                fontWeight: FontWeight.w700,
+                                              color: event.description=="TO"?Colors.black:Colors.white,
+
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Icon(Icons.timelapse,color: event.description=="TO"?Colors.black:Colors.white),
-                                        event.description=="TO"? Text('Departure', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: event.description=="TO"?Colors.black:Colors.white,),):Text('Arrival', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: event.description=="TO"?Colors.black:Colors.white,),),
-                                      ],
-                                    ),
+                                          Text(
+                                            event.nofpeople,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                              color: event.description=="TO"?Colors.black:Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
-                                    Text(
-                                      changetimeformat(event.timeofj),
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: event.description=="TO"?Colors.black:Colors.white,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Text('FROM', style: TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline,color: event.description=="TO"?Colors.black:Colors.white,),),
+                                        ],
                                       ),
-                                    ),
+                                      Row(
+                                        children: <Widget>[
+                                          event.description=="TO"?Icon(Icons.school,color: event.description=="TO"?Colors.black:Colors.white):event.modeofj=="Railways"?Icon(Icons.train,color: event.description=="TO"?Colors.black:Colors.white):Icon(Icons.flight,color: event.description=="TO"?Colors.black:Colors.white),
+                                          Text(event.placefrom, style: TextStyle(fontSize: 14,fontWeight: FontWeight.w700,color: event.description=="TO"?Colors.black:Colors.white),),
+                                        ],
+                                      ),
+                                      Text(
+                                        'TO',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: event.description=="TO"?Colors.black:Colors.white,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          event.description=="TO"?event.modeofj=="Railways"?Icon(Icons.train,color: event.description=="TO"?Colors.black:Colors.white):Icon(Icons.flight,color: event.description=="TO"?Colors.black:Colors.white):Icon(Icons.school,color: event.description=="TO"?Colors.black:Colors.white),
+                                          Text(
+                                            event.placeto,
+                                            style: TextStyle(
+                                                fontSize: 14,fontWeight: FontWeight.w700,
+                                              color: event.description=="TO"?Colors.black:Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(Icons.timelapse,color: event.description=="TO"?Colors.black:Colors.white),
+                                          event.description=="TO"? Text('Departure', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: event.description=="TO"?Colors.black:Colors.white,),):Text('Arrival', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,color: event.description=="TO"?Colors.black:Colors.white,),),
+                                        ],
+                                      ),
 
-                                  ],
-                                )
-                              ],
+                                      Text(
+                                        changetimeformat(event.timeofj),
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: event.description=="TO"?Colors.black:Colors.white,
+                                        ),
+                                      ),
+
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -316,6 +334,7 @@ class _HomePageState extends State<CalenderUI> {
           }),
     );
   }
+
 }
 
 
