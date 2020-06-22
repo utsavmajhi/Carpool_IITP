@@ -419,7 +419,7 @@ void getCurrentUser () async{ try{
                               String uid=loggedInUser.uid;
                               try{
 
-                                String documentid=uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), 'z');
+                                String documentid=uid + _dateTime.day.toString()+_dateTime.month.toString()+_dateTime.year.toString()+_journeytime.replaceFirst(RegExp(':'), 'z')+addtravelDetails.selectTo+addtravelDetails.selectFrom;
                                 var parsedDate = DateTime.parse('2020-01-01 $_journeytime:00.000');
                                await _firestore.collection("events").document(documentid).setData({
                                   'description':addtravelDetails.selectTravelType,
