@@ -222,7 +222,7 @@ class _EditTravelScreenState extends State<EditTravelScreen> {
                                               child: Text(
                                               descriptionoj=="TO"?placeto:placefrom,
                                                 maxLines: 2,
-                                                overflow: TextOverflow.clip,
+                                                overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w600
