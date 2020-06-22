@@ -159,7 +159,7 @@ class _EditTravelScreenState extends State<EditTravelScreen> {
                             {
                               //goto next page for editing details
                               print(snapshot.data.documents[index]);
-                              Navigator.pushReplacementNamed(context, EditFieldsDetailsScreen.id,arguments:EditdetailsModel(documentSnapshot: snapshot.data.documents[index]));
+                              Navigator.pushNamed(context, EditFieldsDetailsScreen.id,arguments:EditdetailsModel(documentSnapshot: snapshot.data.documents[index]));
                             },
                             child: Card(
                               color: Colors.amber,

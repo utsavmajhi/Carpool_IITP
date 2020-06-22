@@ -532,7 +532,13 @@ String checks(@required String placefrom,@required String dateoj, @required Stri
             }
           else
             {
-              return "Checks passed";
+              if(DateTime.parse(dateoj).isAfter(DateTime.now().subtract(new Duration(days: 1)))){
+                return "Checks passed";
+              }
+              else{
+                return "Past Dates not allowed";
+              }
+
             }
         }
     }
