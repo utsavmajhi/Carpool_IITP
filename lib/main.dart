@@ -13,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:carpool/EditTravelScreen.dart';
 import 'package:carpool/EditFieldsDetailsScreen.dart';
 import 'package:carpool/SplashScreen.dart';
+import 'set_app_theme.dart';
 final _auth = FirebaseAuth.instance;
 void main() {
   runApp(Carpool());
@@ -23,7 +24,7 @@ class Carpool extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      initialRoute:SplashScreen.id,
+      home:SetAppTheme(child: SplashScreen()),
       routes: {
         WelcomePage.id:(context) => WelcomePage(),
         LoginScreen.id:(context) => LoginScreen(),
