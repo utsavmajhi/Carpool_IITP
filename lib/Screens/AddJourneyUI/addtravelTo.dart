@@ -1,15 +1,10 @@
-import 'package:carpool/ConfirmAddTravelScreen.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/AddJourneyUI/ConfirmAddTravelScreen.dart';
 import 'package:carpool/PassArguments/AddtravelDetails.dart';
 import 'package:flutter/material.dart';
-import 'package:carpool/PasswordResetScreen.dart';
-import 'package:carpool/RegistrationScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:carpool/constants.dart';
-import 'package:carpool/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'PassArguments/traveltype.dart';
-import 'PassArguments/AddtravelDetails.dart';
+import 'package:carpool/PassArguments/traveltype.dart';
 
 class AddTravelTo extends StatefulWidget {
   static String id='AddTravel_TO';

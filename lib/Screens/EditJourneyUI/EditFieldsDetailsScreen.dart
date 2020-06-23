@@ -1,21 +1,17 @@
-import 'package:carpool/HomeScreen.dart';
-import 'package:carpool/addtravelTo.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/EditJourneyUI/EditTravelScreen.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:carpool/PasswordResetScreen.dart';
-import 'package:carpool/RegistrationScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:carpool/constants.dart';
-import 'package:carpool/rounded_button.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Utils/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:carpool/PassArguments/AddtravelDetails.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'PassArguments/editdetailsmodel.dart';
-import 'roundedbuttonsmall.dart';
+import '../../PassArguments/editdetailsmodel.dart';
+import '../../Utils/roundedbuttonsmall.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 
@@ -531,7 +527,7 @@ class _EditFieldsDetailsScreenState extends State<EditFieldsDetailsScreen> {
                                         setState(() {
                                           showSpinner=false;
                                           // Here you can write your code for open new view
-                                          Navigator.pushReplacementNamed(context, HomeScreen.id);
+                                          Navigator.pop(context);
                                         });
 
                                       });
@@ -634,7 +630,13 @@ else{
           }
           else
           {
-            return "Checks passed";
+            if(DateTime.parse(dateoj).isAfter(DateTime.now().subtract(new Duration(days: 1)))){
+              return "Checks passed";
+            }else
+              {
+                return "Past Dates not allowed";
+              }
+
           }
         }
       }

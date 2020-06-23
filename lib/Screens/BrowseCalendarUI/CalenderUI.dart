@@ -10,7 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_helpers/firebase_helpers.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'Dialog.dart';
+import '../../Utils/Dialog.dart';
 class CalenderUI extends StatefulWidget {
   static String id='calender_screen';
   @override

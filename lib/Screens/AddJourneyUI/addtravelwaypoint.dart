@@ -1,14 +1,14 @@
-import 'package:carpool/addtravelTo.dart';
+import 'package:carpool/Screens/AddJourneyUI/addtravelTo.dart';
 import 'package:flutter/material.dart';
-import 'package:carpool/PasswordResetScreen.dart';
-import 'package:carpool/RegistrationScreen.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/PasswordResetScreen.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/RegistrationScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:carpool/constants.dart';
-import 'package:carpool/rounded_button.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Utils/constants.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Utils/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'PassArguments/traveltype.dart';
-import 'package:carpool/ConfirmAddTravelScreen.dart';
+import '../../PassArguments/traveltype.dart';
+import 'package:carpool/Screens/AddJourneyUI/ConfirmAddTravelScreen.dart';
 
 class AddTravelWaypoint extends StatefulWidget {
   static String id='addtravelwaypoint';
