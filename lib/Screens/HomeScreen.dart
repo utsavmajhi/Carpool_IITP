@@ -231,6 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Expanded(
                       child: GridView.count(
+                        childAspectRatio: (1/1),
                         mainAxisSpacing: 35,
                           crossAxisSpacing: 22,
                           primary: false,
@@ -253,7 +254,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
                                         Hero(tag: 'AddTravelHero',
-                                            child: SvgPicture.asset('images/travel2.svg',height: 110,)),
+                                            child: SvgPicture.asset('images/travel2.svg',height: 110,
+                                            fit: BoxFit.contain,)),
                                         SizedBox(
                                           height: 10 ,
                                         ),
@@ -287,7 +289,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Hero(tag: "Edit Travel Plan",
-                                        child: SvgPicture.asset('images/pencil.svg',height: 100,)),
+                                        child: SvgPicture.asset('images/pencil.svg',height: 100,
+                                            fit: BoxFit.contain)),
                                     SizedBox(
                                       height: 20 ,
                                     ),
@@ -324,7 +327,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Hero(tag: 'CalenderHero',
-                                          child: SvgPicture.asset('images/calendar.svg',height: 100,)),
+                                          child: SvgPicture.asset('images/calendar.svg',height: 100,
+                                              fit: BoxFit.contain)),
                                       SizedBox(
                                         height: 20,
                                       ),
@@ -355,7 +359,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    SvgPicture.asset('images/taxi.svg',height: 110,),
+                                    SvgPicture.asset('images/taxi.svg',height: 110,
+                                        fit: BoxFit.contain),
                                     SizedBox(
                                       height: 10,
                                     ),

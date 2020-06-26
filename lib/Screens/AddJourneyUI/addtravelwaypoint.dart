@@ -228,7 +228,7 @@ class _AddTravelWaypointState extends State<AddTravelWaypoint> {
                                         ),
                                       )
                                   ),
-                                  Text('Airport/Junction'),
+                                  Text('Airport/Station'),
                                 ],
                               ),
                             ],
