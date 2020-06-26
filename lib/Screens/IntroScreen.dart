@@ -1,4 +1,4 @@
-import 'package:carpool/LoginScreen.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:carpool/IntroScreenModeldata/data.dart';
 import 'dart:io';

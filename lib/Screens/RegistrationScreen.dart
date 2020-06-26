@@ -1,12 +1,14 @@
-import 'package:carpool/LoginScreen.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:carpool/constants.dart';
-import 'package:carpool/rounded_button.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Utils/constants.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Utils/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:strings/strings.dart';
+
 final _firestore=Firestore.instance;
 class RegistrationScreen extends StatefulWidget {
   static String id='registration_screen';
@@ -24,12 +26,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> with TickerProv
   bool passwordVisible2;
   //for toggling password view
   //Storing variables
-  String _institutemail;
-  String _password1;
-  String _passwordconfirm;
-  String _fullname;
-  String _phonenum;
-  String _altemail;
+  String _institutemail="";
+  String _password1="";
+  String _passwordconfirm="";
+  String _fullname="";
+  String _phonenum="";
+  String _altemail="";
 
 
 
@@ -302,7 +304,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> with TickerProv
                                  //Navigator.pushNamed(context, ChatScreen.id);
                                   //firestore datacollection starts
                                  await _firestore.collection('UsersData').document(uid).setData({
-                                   'username':_fullname,
+                                   'username':capitalize(_fullname),
                                    'institutemail':_institutemail.toLowerCase().trim(),
                                    'Alternatemail':_altemail.toLowerCase().trim(),
                                    'Phone':_phonenum,

@@ -1,12 +1,12 @@
-import 'package:carpool/HomeScreen.dart';
-import 'package:carpool/addtravelTo.dart';
+import 'package:carpool/Screens/HomeScreen.dart';
+import 'package:carpool/Screens/AddJourneyUI/addtravelTo.dart';
 import 'package:flutter/material.dart';
-import 'package:carpool/PasswordResetScreen.dart';
-import 'package:carpool/RegistrationScreen.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/PasswordResetScreen.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/RegistrationScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:carpool/constants.dart';
-import 'package:carpool/rounded_button.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Utils/constants.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Utils/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -419,7 +419,7 @@ void getCurrentUser () async{ try{
                               String uid=loggedInUser.uid;
                               try{
 
-                                String documentid=uid + _dateTime.millisecondsSinceEpoch.toString()+_journeytime.replaceFirst(RegExp(':'), 'z');
+                                String documentid=uid + _dateTime.day.toString()+_dateTime.month.toString()+_dateTime.year.toString()+_journeytime.replaceFirst(RegExp(':'), 'z')+addtravelDetails.selectTo+addtravelDetails.selectFrom;
                                 var parsedDate = DateTime.parse('2020-01-01 $_journeytime:00.000');
                                await _firestore.collection("events").document(documentid).setData({
                                   'description':addtravelDetails.selectTravelType,
@@ -441,7 +441,13 @@ void getCurrentUser () async{ try{
                                       // Here you can write your code
                                     setState(() {
                                       // Here you can write your code for open new view
-                                      Navigator.pushReplacementNamed(context, HomeScreen.id);
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => HomeScreen()
+                                          ),
+                                          ModalRoute.withName("/home_screen")
+                                      );
                                     });
 
                                   });
@@ -532,7 +538,13 @@ String checks(@required String placefrom,@required String dateoj, @required Stri
             }
           else
             {
-              return "Checks passed";
+              if(DateTime.parse(dateoj).isAfter(DateTime.now().subtract(new Duration(days: 1)))){
+                return "Checks passed";
+              }
+              else{
+                return "Past Dates not allowed";
+              }
+
             }
         }
     }

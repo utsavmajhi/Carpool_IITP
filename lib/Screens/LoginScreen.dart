@@ -1,17 +1,18 @@
-import 'package:carpool/HomeScreen.dart';
-import 'package:carpool/ForgetPasswordSheet.dart';
-import 'package:carpool/RegistrationScreen.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/HomeScreen.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/ForgetPasswordSheet.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Screens/RegistrationScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:carpool/constants.dart';
-import 'package:carpool/rounded_button.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Utils/constants.dart';
+import 'file:///G:/FlutterApps/carpool/lib/Utils/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:carpool/firebaseServices/Crud.dart';
-import 'package:carpool/bottomsheet_widget.dart';
+import 'package:strings/strings.dart';
+
 
 
 FirebaseUser loggedInUser;
@@ -31,10 +32,10 @@ class _LoginScreenState extends State<LoginScreen>
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool showSpinner = false;
   final _auth = FirebaseAuth.instance;
-  String email;
+  String email="";
   final resetemail = TextEditingController();
   String _validate;
-  String password;
+  String password="";
   DocumentSnapshot userdetails;
   bool _obscureText = true;
   bool passwordVisible;
@@ -202,13 +203,7 @@ class _LoginScreenState extends State<LoginScreen>
                       padding: const EdgeInsets.only(right: 12),
                       child: GestureDetector(
                         onTap: () {
-                          //goto passwordresetScreen
-                         // Navigator.pushNamed(context, PasswordResetScreen.id);
-                        /*  var sheetController =  _scaffoldKey.currentState.showBottomSheet(
-                              (context) => BottomSheetWidget());
-                          sheetController.closed.then((value) {
-                            print(value);
-                          });*/
+
 
                           showModalBottomSheet<void>(
                               shape: RoundedRectangleBorder(

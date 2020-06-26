@@ -1,22 +1,21 @@
-import 'package:carpool/CalenderUI.dart';
-import 'package:carpool/EditTravelScreen.dart';
-import 'package:carpool/LoginScreen.dart';
-import 'package:carpool/addtravelwaypoint.dart';
+import 'package:carpool/Screens/BrowseCalendarUI/CalenderUI.dart';
+import 'package:carpool/Screens/EditJourneyUI/EditTravelScreen.dart';
+import 'package:carpool/Screens/LoginScreen.dart';
+import 'package:carpool/Screens/AddJourneyUI/addtravelwaypoint.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:carpool/PasswordResetScreen.dart';
-import 'package:carpool/RegistrationScreen.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:carpool/constants.dart';
-import 'package:carpool/rounded_button.dart';
+import 'package:carpool/Utils/rounded_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'PassArguments/edittraveluid.dart';
+import 'package:carpool/PassArguments/edittraveluidargs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:strings/strings.dart';
 
 
 class HomeScreen extends StatefulWidget {
+
   static String id='home_screen';
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -26,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String user_name="User";
   String uid="";
   final _auth = FirebaseAuth.instance;
+  TextEditingController changeusername = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       if(user_name!=null){
         user_name= username;
+        changeusername=new TextEditingController(text: username);
         uid=useruid;
       }
 
@@ -116,15 +117,108 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontSize: 25
                                 ),
                               ),
-                              Text(
-                                user_name,
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat Medium',
-                                    color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    user_name,
+                                    style: TextStyle(
+                                        fontFamily: 'Montserrat Medium',
+                                        color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  GestureDetector(
+
+                                    onTap: (){
+                                      showModalBottomSheet<void>(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
+                                        context: context,
+                                        isScrollControlled: true,
+                                        builder: (BuildContext context) {
+
+                                          return SingleChildScrollView(
+                                            child: Container(
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:  EdgeInsets.only(
+                                                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(20.0),
+                                                        child: TextFormField(
+                                                          controller: changeusername,
+                                                          textAlign: TextAlign.start,
+                                                          decoration: InputDecoration(
+                                                            contentPadding: EdgeInsets.only(
+                                                                left: 15, bottom: 11, top: 11, right: 15),
+                                                            labelText: 'New Username',
+                                                            prefixIcon: Icon(Icons.person),
+                                                            labelStyle: TextStyle(
+                                                              color: Color(0xFFB2BCC8),
+                                                              fontWeight: FontWeight.w600,
+                                                              fontSize: 17,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left:18.0,right: 18,top: 0,bottom: 10),
+                                                      child: RoundedButton(
+                                                        title: "Update",
+                                                        colour: Color(0xFF3F6AFE),
+                                                        onPressed: (){
+                                                          setState(()async{
+                                                            if(changeusername.text.isEmpty){
+                                                              _showSnackBar(
+                                                                  'Please type new username',
+                                                                  Colors.red[600]);
+                                                              Navigator.pop(context);
+                                                            }
+                                                            else{
+                                                              await Firestore.instance.collection('UsersData').document(uid).updateData({
+                                                                "username":capitalize(changeusername.text)
+                                                              }).whenComplete((){
+                                                                _showSnackBar("Successfully Updated username",Colors.blueAccent);
+                                                                updatesharedprefs(capitalize(changeusername.text)).then((value){
+                                                                  setState(() {
+                                                                    user_name=capitalize(changeusername.text);
+                                                                    Navigator.pop(context);
+                                                                  });
+                                                                });
+
+                                                              });
+                                                            }
+
+
+
+                                                          });
+
+                                                        },
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Icon(Icons.mode_edit,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                  )
+                                ],
                               ),
+
 
 
                             ],
@@ -309,7 +403,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           _signOut();//signout from firebase
                           SharedPreferences preferences = await SharedPreferences.getInstance();
                           await preferences.clear();
-                          Navigator.pushReplacementNamed(context, LoginScreen.id);
+                         // Navigator.pushReplacementNamed(context, LoginScreen.id);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()
+                              ),
+                              ModalRoute.withName("/Login_screen")
+                          );
                         },
                         color: Colors.red[600],
                       ),
@@ -331,6 +432,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
     );
+
+  }
+
+  Future<bool> updatesharedprefs(String username) async
+  {
+    SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+    await sharedPreferences.setString('username', username);
+    sharedPreferences.commit();
+    return true;
+
   }
 }
 class MyClipper extends CustomClipper<Path> {
