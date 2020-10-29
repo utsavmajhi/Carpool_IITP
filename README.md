@@ -3,9 +3,7 @@
 #
 <img src="https://github.com/utsavmajhi/Carpool_IITP/raw/master/Pictures/image1.jpeg" width="600" height="400" title="Cabshare" alt="Platform"></a>
 ## Overview
-> As most of us know that hard-copy books are very costly and 
-in college,there is always some student who has a certain book that is needed by another student.
-In this project,we are trying to build a decentralized platform for students to share their books
+> User-friendly Cab Pooling Application for IIT Patna
 ## Features
 1. owner of book can track his/her book in realtime.
 2. Books will be secured using the fabric network.
