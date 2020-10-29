@@ -3,11 +3,10 @@
 #
 <img src="https://github.com/utsavmajhi/Carpool_IITP/raw/master/Pictures/image1.jpeg" width="600" height="400" title="Cabshare" alt="Platform"></a>
 ## Overview
-> User-friendly Cab Pooling Application for IIT Patna
+> User-friendly Cab Pooling Application for IIT Patna.If you are a part of the IIT Patna family, this is a must-have app for you. Designed to ease your vacation journey planning and random trips, this app is helpful for students and staff alike.
 ## Features
-1. owner of book can track his/her book in realtime.
-2. Books will be secured using the fabric network.
-3. The owner can remove his/her book from the platform.
+1. Edit & Book trips.
+2. View trip Calendar and plan timing and travel.
 
 [![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger) [![Dependency Status](http://img.shields.io/gemnasium/badges/badgerbadgerbadger.svg?style=flat-square)](https://gemnasium.com/badges/badgerbadgerbadger)[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)  [![Coverage Status](http://img.shields.io/coveralls/badges/badgerbadgerbadger.svg?style=flat-square)](https://coveralls.io/r/badges/badgerbadgerbadger)[![Badges](http://img.shields.io/:badges-9/9-ff6799.svg?style=flat-square)](https://github.com/badges/badgerbadgerbadger)
 
