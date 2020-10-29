@@ -11,21 +11,8 @@
 [![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger) [![Dependency Status](http://img.shields.io/gemnasium/badges/badgerbadgerbadger.svg?style=flat-square)](https://gemnasium.com/badges/badgerbadgerbadger)[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)  [![Coverage Status](http://img.shields.io/coveralls/badges/badgerbadgerbadger.svg?style=flat-square)](https://coveralls.io/r/badges/badgerbadgerbadger)[![Badges](http://img.shields.io/:badges-9/9-ff6799.svg?style=flat-square)](https://github.com/badges/badgerbadgerbadger)
 
 
-|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_1.png" width="220" height="400" title="LoginPage" alt="LoginPage"></a>||<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_2.png" width="220" height="400" title="RegisterPage" alt="RegisterPage"></a>|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_3.png" width="220" height="400" title="BookdetailsPage" alt="BookDetails"></a>|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_4.png" width="220" height="400" title="ProfilePage" alt="Profile"></a>|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_5.png" width="220" height="400" title="MyBooks" alt="MyBooks"></a>|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_6.png" width="220" height="400" title="AddBook" alt="Add Books"></a>|
+|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_1.png" width="220" height="400" title="LoginPage" alt="LoginPage"></a>|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_2.png" width="220" height="400" title="RegisterPage" alt="RegisterPage"></a>|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_3.png" width="220" height="400" title="BookdetailsPage" alt="BookDetails"></a>|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_4.png" width="220" height="400" title="ProfilePage" alt="Profile"></a>|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_5.png" width="220" height="400" title="MyBooks" alt="MyBooks"></a>|<img src="https://github.com/utsavmajhi/Carpool_IITP/blob/master/Pictures/screenshot_6.png" width="220" height="400" title="AddBook" alt="Add Books"></a>|
 -
--
-## Table of Contents
-
-- [Installation](#installation)
-- [Features](#features)
-- [Contributing](#contributing)
-- [Team](#team)
-- [Support](#support)
-- [License](#license)
-
-
----
-
 
 ## Support
 
