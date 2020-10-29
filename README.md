@@ -2,7 +2,7 @@
 
 
 # CabShare IITP
-<img src="https://github.com/utsavmajhi/Carpool_IITP/raw/master/Pictures/image1.jpeg" width="600" height="200" title="Cabshare" alt="Platform"></a>
+<img src="https://github.com/utsavmajhi/Carpool_IITP/raw/master/Pictures/image1.jpeg" width="600" height="400" title="Cabshare" alt="Platform"></a>
 ## Overview
 > As most of us know that hard-copy books are very costly and 
 in college,there is always some student who has a certain book that is needed by another student.
